@@ -110,7 +110,7 @@ impl cs_mips_op {
 
 impl cs_ppc_op {
     pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+        return unsafe { *self.__bindgen_anon_1.reg.as_ref() as u32 };
     }
     pub fn imm(&self) -> i32 {
         return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
