@@ -76,7 +76,9 @@ impl Error for CsErr {
 impl CsErr {
     /// Create a Capstone error from a low-level cs_err code.
     pub fn new(code: cs_err) -> CsErr {
-        assert_ne!(code, cs_err::CS_ERR_OK);
+        // assert_ne!(code, cs_err::CS_ERR_OK);
+        // cs_err can be CS_ERR_OK is there weren't enough bytes to disassemble
+        // the instruction
         CsErr{code: code}
     }
 
