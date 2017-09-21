@@ -4,7 +4,6 @@
 #![allow(improper_ctypes)]
 
 use std::convert::From;
-use std::fmt;
 use std::mem::transmute;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
