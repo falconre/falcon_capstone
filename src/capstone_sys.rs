@@ -9,153 +9,129 @@ use std::mem::transmute;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
-// It seems that bindgen fails to derive Debug, Clone and Copy for `cs_arm`. Let's implement them
-// manually.
-impl fmt::Debug for cs_arm {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let mut operands = String::new();
-        for i in self.operands.iter() {
-            operands.push_str(format!(" {:?}", i).as_str());
-        }
-
-        write!(f, "cs_arm {{ usermode: {:?}, vector_size: {:?}, vector_data: {:?}, \
-            cps_mode: {:?}, cps_flag: {:?}, cc: {:?}, update_flags: {:?}, writeback: {:?}, \
-            mem_barrier: {:?}, op_count: {:?},{}}}", self.usermode, self.vector_size,
-            self.vector_data, self.cps_mode, self.cps_flag, self.cc, self.update_flags,
-            self.writeback, self.mem_barrier, self.op_count, operands)
-    }
-}
-
-impl Clone for cs_arm {
-    fn clone(&self) -> cs_arm {
-        *self
-    }
-}
-
-impl Copy for cs_arm { }
 
 // Operand enum getters.
 impl cs_x86_op {
-    pub fn reg(&self) -> &x86_reg {
-        return unsafe { self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> x86_reg {
+        return unsafe { self.__bindgen_anon_1.reg };
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn fp(&self) -> f64 {
-        return unsafe { *self.__bindgen_anon_1.fp.as_ref() };
+        return unsafe { self.__bindgen_anon_1.fp };
     }
     pub fn mem(&self) -> &x86_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
 }
 
 impl cs_arm64_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> arm64_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn fp(&self) -> f64 {
-        return unsafe { *self.__bindgen_anon_1.fp.as_ref() };
+        return unsafe { self.__bindgen_anon_1.fp };
     }
     pub fn mem(&self) -> &arm64_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
     pub fn pstate(&self) -> &arm64_pstate {
-        return unsafe { self.__bindgen_anon_1.pstate.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.pstate };
     }
     pub fn sys(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.sys.as_ref() };
+        return unsafe { self.__bindgen_anon_1.sys };
     }
     pub fn prefetch(&self) -> &arm64_prefetch_op {
-        return unsafe { self.__bindgen_anon_1.prefetch.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.prefetch };
     }
     pub fn barrier(&self) -> &arm64_barrier_op {
-        return unsafe { self.__bindgen_anon_1.barrier.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.barrier };
     }
 
 }
 
 impl cs_arm_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> arm_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn fp(&self) -> f64 {
-        return unsafe { *self.__bindgen_anon_1.fp.as_ref() };
+        return unsafe { self.__bindgen_anon_1.fp };
     }
     pub fn mem(&self) -> &arm_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
     pub fn setend(&self) -> &arm_setend_type {
-        return unsafe { self.__bindgen_anon_1.setend.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.setend };
     }
 }
 
 impl cs_mips_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> mips_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn mem(&self) -> &mips_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
 }
 
 impl cs_ppc_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() as u32 };
+    pub fn reg(&self) -> ppc_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn mem(&self) -> &ppc_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
     pub fn crx(&self) -> &ppc_op_crx {
-        return unsafe { self.__bindgen_anon_1.crx.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.crx };
     }
 }
 
 impl cs_sparc_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> sparc_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn mem(&self) -> &sparc_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
 }
 
 impl cs_sysz_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> sysz_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn mem(&self) -> &sysz_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
 }
 
 impl cs_xcore_op {
-    pub fn reg(&self) -> u32 {
-        return unsafe { *self.__bindgen_anon_1.reg.as_ref() };
+    pub fn reg(&self) -> xcore_reg {
+        return unsafe { self.__bindgen_anon_1.reg.into() };
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { *self.__bindgen_anon_1.imm.as_ref() };
+        return unsafe { self.__bindgen_anon_1.imm };
     }
     pub fn mem(&self) -> &xcore_op_mem {
-        return unsafe { self.__bindgen_anon_1.mem.as_ref() };
+        return unsafe { &self.__bindgen_anon_1.mem };
     }
 }
 

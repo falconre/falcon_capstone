@@ -21,4 +21,4 @@ name = "capstone_rust"
 libc = "0.2"
 
 [build-dependencies]
-bindgen = "0.25.0"
+bindgen = "0.30.0"

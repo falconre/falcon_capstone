@@ -101,7 +101,6 @@ fn to_res(code: cs_err) -> Result<(), CsErr> {
 ///
 /// A Rust-friendly struct to access fields of a disassembled instruction. This is a safe wrapper
 /// over cs_insn.
-#[derive(Debug)]
 pub struct Instr {
     /// Instruction ID. Find the instruction id in the '[ARCH]_insn' enum in the header file of
     /// corresponding architecture.
@@ -170,14 +169,14 @@ impl Instr {
             let arch_union = detail.__bindgen_anon_1;
 
             let arch = unsafe { match arch {
-                cs_arch::CS_ARCH_ARM   => { DetailsArch::ARM  (*arch_union.arm.as_ref())   },
-                cs_arch::CS_ARCH_ARM64 => { DetailsArch::ARM64(*arch_union.arm64.as_ref()) },
-                cs_arch::CS_ARCH_MIPS  => { DetailsArch::MIPS (*arch_union.mips.as_ref())  },
-                cs_arch::CS_ARCH_X86   => { DetailsArch::X86  (*arch_union.x86.as_ref())   },
-                cs_arch::CS_ARCH_PPC   => { DetailsArch::PPC  (*arch_union.ppc.as_ref())   },
-                cs_arch::CS_ARCH_SPARC => { DetailsArch::SPARC(*arch_union.sparc.as_ref()) },
-                cs_arch::CS_ARCH_SYSZ  => { DetailsArch::SYSZ (*arch_union.sysz.as_ref())  },
-                cs_arch::CS_ARCH_XCORE => { DetailsArch::XCORE(*arch_union.xcore.as_ref()) },
+                cs_arch::CS_ARCH_ARM   => { DetailsArch::ARM  (arch_union.arm)   },
+                cs_arch::CS_ARCH_ARM64 => { DetailsArch::ARM64(arch_union.arm64) },
+                cs_arch::CS_ARCH_MIPS  => { DetailsArch::MIPS (arch_union.mips)  },
+                cs_arch::CS_ARCH_X86   => { DetailsArch::X86  (arch_union.x86)   },
+                cs_arch::CS_ARCH_PPC   => { DetailsArch::PPC  (arch_union.ppc)   },
+                cs_arch::CS_ARCH_SPARC => { DetailsArch::SPARC(arch_union.sparc) },
+                cs_arch::CS_ARCH_SYSZ  => { DetailsArch::SYSZ (arch_union.sysz)  },
+                cs_arch::CS_ARCH_XCORE => { DetailsArch::XCORE(arch_union.xcore) },
                 _ => panic!("Unexpected arch: {:?}", arch),
             }};
 
@@ -234,7 +233,7 @@ impl Instr {
 ///     assert_eq!(insn, cs::x86_insn::X86_INS_ADD);
 /// }
 /// ```
-#[derive(Debug, PartialEq)]
+#[derive(PartialEq)]
 pub enum InstrIdArch {
     X86(x86_insn),
     ARM64(arm64_insn),
@@ -264,7 +263,6 @@ pub enum InstrIdArch {
 /// let detail = buf.get(0).unwrap().detail.unwrap(); // `buf` contains only one 'add'.
 /// assert_eq!(dec.reg_name(detail.regs_write[0]), Some("eflags"));
 /// ```
-#[derive(Debug)]
 pub struct Details {
     /// List of implicit registers read by this insn.
     pub regs_read: Vec<u32>,
@@ -280,7 +278,6 @@ pub struct Details {
 }
 
 /// Architecture-specific part of detail.
-#[derive(Debug)]
 pub enum DetailsArch {
     X86(cs_x86),
     ARM64(cs_arm64),
