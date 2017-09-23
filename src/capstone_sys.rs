@@ -9,6 +9,23 @@ use std::mem::transmute;
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 
+pub const CS_MODE_LITTLE_ENDIAN: cs_mode = cs_mode_CS_MODE_LITTLE_ENDIAN;
+pub const CS_MODE_ARM: cs_mode = cs_mode_CS_MODE_ARM;
+pub const CS_MODE_16: cs_mode = cs_mode_CS_MODE_16;
+pub const CS_MODE_32: cs_mode = cs_mode_CS_MODE_32;
+pub const CS_MODE_64: cs_mode = cs_mode_CS_MODE_64;
+pub const CS_MODE_THUMB: cs_mode = cs_mode_CS_MODE_THUMB;
+pub const CS_MODE_MCLASS: cs_mode = cs_mode_CS_MODE_MCLASS;
+pub const CS_MODE_V8: cs_mode = cs_mode_CS_MODE_V8;
+pub const CS_MODE_MICRO: cs_mode = cs_mode_CS_MODE_MICRO;
+pub const CS_MODE_MIPS3: cs_mode = cs_mode_CS_MODE_MIPS3;
+pub const CS_MODE_MIPS32R6: cs_mode = cs_mode_CS_MODE_MIPS32R6;
+pub const CS_MODE_MIPSGP64: cs_mode = cs_mode_CS_MODE_MIPSGP64;
+pub const CS_MODE_V9: cs_mode = cs_mode_CS_MODE_V9;
+pub const CS_MODE_BIG_ENDIAN: cs_mode = cs_mode_CS_MODE_BIG_ENDIAN;
+pub const CS_MODE_MIPS32: cs_mode = cs_mode_CS_MODE_MIPS32;
+pub const CS_MODE_MIPS64: cs_mode = cs_mode_CS_MODE_MIPS64;
+
 // Operand enum getters.
 impl cs_x86_op {
     pub fn reg(&self) -> x86_reg {

@@ -9,6 +9,7 @@ fn main() {
     let bindings = bindgen::Builder::default()
         .header("src/wrapper.h")
         .derive_debug(true)
+        .constified_enum("cs_mode")
         .generate()
         .expect("Unable to generate bindings");
 

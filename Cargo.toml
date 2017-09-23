@@ -1,9 +1,9 @@
 [package]
 name = "capstone_rust"
-version = "0.2.2"
-authors = ["Marco Milanese <marcomilanese7@gmail.com>"]
-homepage = "https://github.com/Mm7/capstone-rust"
-repository = "https://github.com/Mm7/capstone-rust"
+version = "0.2.3"
+authors = ["Marco Milanese <marcomilanese7@gmail.com>", "Alex Eubanks <endeavor@rainbowsandpwnies.com>"]
+homepage = "https://github.com/endeav0r/capstone-rust"
+repository = "https://github.com/endeav0r/capstone-rust"
 description = "A Capstone engine binding for Rust"
 keywords = ["capstone","disassembly"]
 categories = ["api-bindings"]
@@ -12,7 +12,7 @@ license = "LGPL-3.0"
 build = "build.rs"
 
 [badges]
-travis-ci = { repository = "Mm7/capstone-rust" }
+travis-ci = { repository = "endeav0r/capstone-rust" }
 
 [lib]
 name = "capstone_rust"
