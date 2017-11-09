@@ -1,24 +1,22 @@
 [package]
-name = "capstone_rust"
-version = "0.2.3"
+name = "falcon_capstone"
+version = "0.2.0"
 authors = ["Marco Milanese <marcomilanese7@gmail.com>", "Alex Eubanks <endeavor@rainbowsandpwnies.com>"]
-homepage = "https://github.com/endeav0r/capstone-rust"
-repository = "https://github.com/endeav0r/capstone-rust"
-description = "A Capstone engine binding for Rust"
-keywords = ["capstone","disassembly"]
-categories = ["api-bindings"]
+homepage = "https://github.com/falconre/falcon_capstone"
+repository = "https://github.com/falconre/falcon_capstone"
+description = "Capstone bindings in rust"
 readme = "README.md"
 license = "LGPL-3.0"
 build = "build.rs"
 
-[badges]
-travis-ci = { repository = "endeav0r/capstone-rust" }
-
 [lib]
-name = "capstone_rust"
+name = "falcon_capstone"
 
 [dependencies]
 libc = "0.2"
+
+[features]
+static = []
 
 [build-dependencies]
 bindgen = "0.30.0"
