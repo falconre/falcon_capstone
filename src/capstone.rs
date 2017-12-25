@@ -486,7 +486,7 @@ impl Capstone {
     pub fn reg_name(&self, reg_id: u32) -> Option<&str> {
         let name = unsafe {
             let name = cs_reg_name(self.handle.get(), reg_id);
-            if name == 0 as *const i8 {
+            if name.is_null() {
                 return None;
             }
             CStr::from_ptr(name)
@@ -514,7 +514,7 @@ impl Capstone {
     pub fn group_name(&self, group_id: u32) -> Option<&str> {
         let name = unsafe {
             let name = cs_group_name(self.handle.get(), group_id);
-            if name == 0 as *const i8 {
+            if name.is_null() {
                 return None;
             }
             CStr::from_ptr(name)
