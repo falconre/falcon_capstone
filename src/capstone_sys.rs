@@ -20,30 +20,51 @@ pub const CS_MODE_V8: cs_mode = cs_mode_CS_MODE_V8;
 pub const CS_MODE_MICRO: cs_mode = cs_mode_CS_MODE_MICRO;
 pub const CS_MODE_MIPS3: cs_mode = cs_mode_CS_MODE_MIPS3;
 pub const CS_MODE_MIPS32R6: cs_mode = cs_mode_CS_MODE_MIPS32R6;
-pub const CS_MODE_MPIS2: cs_mode = cs_mode_CS_MODE_MIPS2;
 pub const CS_MODE_V9: cs_mode = cs_mode_CS_MODE_V9;
-pub const CS_MODE_QPX: cs_mode = cs_mode_CS_MODE_QPX;
-pub const CS_MODE_M68K_000: cs_mode = cs_mode_CS_MODE_M68K_000;
-pub const CS_MODE_M68K_010: cs_mode = cs_mode_CS_MODE_M68K_010;
-pub const CS_MODE_M68K_020: cs_mode = cs_mode_CS_MODE_M68K_020;
-pub const CS_MODE_M68K_030: cs_mode = cs_mode_CS_MODE_M68K_030;
-pub const CS_MODE_M68K_040: cs_mode = cs_mode_CS_MODE_M68K_040;
-pub const CS_MODE_M68K_060: cs_mode = cs_mode_CS_MODE_M68K_060;
 pub const CS_MODE_BIG_ENDIAN: cs_mode = cs_mode_CS_MODE_BIG_ENDIAN;
 pub const CS_MODE_MIPS32: cs_mode = cs_mode_CS_MODE_MIPS32;
 pub const CS_MODE_MIPS64: cs_mode = cs_mode_CS_MODE_MIPS64;
+
+#[cfg(not(feature = "capstone4"))]
+pub const CS_MODE_MIPSGP64: cs_mode = cs_mode_CS_MODE_MIPSGP64;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_MPIS2: cs_mode = cs_mode_CS_MODE_MIPS2;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_QPX: cs_mode = cs_mode_CS_MODE_QPX;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_M68K_000: cs_mode = cs_mode_CS_MODE_M68K_000;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_M68K_010: cs_mode = cs_mode_CS_MODE_M68K_010;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_M68K_020: cs_mode = cs_mode_CS_MODE_M68K_020;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_M68K_030: cs_mode = cs_mode_CS_MODE_M68K_030;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_M68K_040: cs_mode = cs_mode_CS_MODE_M68K_040;
+#[cfg(feature = "capstone4")]
+pub const CS_MODE_M68K_060: cs_mode = cs_mode_CS_MODE_M68K_060;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6301: cs_mode = cs_mode_CS_MODE_M680X_6301;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6309: cs_mode = cs_mode_CS_MODE_M680X_6309;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6800: cs_mode = cs_mode_CS_MODE_M680X_6800;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6801: cs_mode = cs_mode_CS_MODE_M680X_6801;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6805: cs_mode = cs_mode_CS_MODE_M680X_6805;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6808: cs_mode = cs_mode_CS_MODE_M680X_6808;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6809: cs_mode = cs_mode_CS_MODE_M680X_6809;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6811: cs_mode = cs_mode_CS_MODE_M680X_6811;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_CPU12: cs_mode = cs_mode_CS_MODE_M680X_CPU12;
+#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_HCS08: cs_mode = cs_mode_CS_MODE_M680X_HCS08;
 
-// Operand enum getters.
+// Union field getters.
 impl cs_x86_op {
     pub fn reg(&self) -> x86_reg {
         return unsafe { self.__bindgen_anon_1.reg };
@@ -51,8 +72,22 @@ impl cs_x86_op {
     pub fn imm(&self) -> i64 {
         return unsafe { self.__bindgen_anon_1.imm };
     }
+    #[cfg(not(feature = "capstone4"))]
+    pub fn fp(&self) -> f64 {
+        return unsafe { self.__bindgen_anon_1.fp };
+    }
     pub fn mem(&self) -> &x86_op_mem {
         return unsafe { &self.__bindgen_anon_1.mem };
+    }
+}
+
+#[cfg(feature = "capstone4")]
+impl cs_x86 {
+    pub fn eflags(&self) -> u64 {
+        return unsafe { self.__bindgen_anon_1.eflags };
+    }
+    pub fn fpu_flags(&self) -> u64 {
+        return unsafe { self.__bindgen_anon_1.fpu_flags };
     }
 }
 
@@ -86,8 +121,12 @@ impl cs_arm64_op {
 
 impl cs_arm_op {
     pub fn reg(&self) -> arm_reg {
+        #[cfg(not(feature = "capstone4"))]
+        return unsafe { self.__bindgen_anon_1.reg.into() };
+
         // capstone/arm.h uses a plain int for the reg field rather than an arm_reg for some
         // reason, so we have to do some weird `as` business to get this to typecheck
+        #[cfg(feature = "capstone4")]
         return unsafe { (self.__bindgen_anon_1.reg as u32).into() };
     }
     pub fn imm(&self) -> i32 {
@@ -120,6 +159,11 @@ impl cs_ppc_op {
     pub fn reg(&self) -> ppc_reg {
         return unsafe { self.__bindgen_anon_1.reg.into() };
     }
+    #[cfg(not(feature = "capstone4"))]
+    pub fn imm(&self) -> i32 {
+        return unsafe { self.__bindgen_anon_1.imm };
+    }
+    #[cfg(feature = "capstone4")]
     pub fn imm(&self) -> i64 {
         return unsafe { self.__bindgen_anon_1.imm };
     }
@@ -135,6 +179,11 @@ impl cs_sparc_op {
     pub fn reg(&self) -> sparc_reg {
         return unsafe { self.__bindgen_anon_1.reg.into() };
     }
+    #[cfg(not(feature = "capstone4"))]
+    pub fn imm(&self) -> i32 {
+        return unsafe { self.__bindgen_anon_1.imm };
+    }
+    #[cfg(feature = "capstone4")]
     pub fn imm(&self) -> i64 {
         return unsafe { self.__bindgen_anon_1.imm };
     }
@@ -167,6 +216,7 @@ impl cs_xcore_op {
     }
 }
 
+#[cfg(feature = "capstone4")]
 impl cs_tms320c64x_op {
     pub fn reg(&self) -> tms320c64x_reg {
         return unsafe { self.__bindgen_anon_1.reg.into() };
@@ -179,6 +229,7 @@ impl cs_tms320c64x_op {
     }
 }
 
+#[cfg(feature = "capstone4")]
 impl cs_m680x_op {
     pub fn imm(&self) -> i32 {
         return unsafe { self.__bindgen_anon_1.imm };
@@ -203,191 +254,82 @@ impl cs_m680x_op {
     }
 }
 
+#[cfg(feature = "capstone4")]
+impl cs_m68k_op {
+    pub fn imm(&self) -> u64 {
+        return unsafe { self.__bindgen_anon_1.imm };
+    }
+    pub fn dimm(&self) -> f64 {
+        return unsafe { self.__bindgen_anon_1.dimm };
+    }
+    pub fn simm(&self) -> f32 {
+        return unsafe { self.__bindgen_anon_1.simm };
+    }
+    pub fn reg(&self) -> m68k_reg {
+        return unsafe { self.__bindgen_anon_1.reg };
+    }
+    pub fn reg_pair(&self) -> (m68k_reg, m68k_reg) {
+        return unsafe { (self.__bindgen_anon_1.reg_pair.reg_0, self.__bindgen_anon_1.reg_pair.reg_1) };
+    }
+}
+#[cfg(feature = "capstone4")]
+impl m68k_op_size {
+    pub fn cpu_size(&self) -> m68k_cpu_size {
+        return unsafe { self.__bindgen_anon_1.cpu_size };
+    }
+    pub fn fpu_size(&self) -> m68k_fpu_size {
+        return unsafe { self.__bindgen_anon_1.fpu_size };
+    }
+}
+
+macro_rules! impl_from_into_int {
+    ($name:ident) => {
+        impl From<u32> for $name {
+            fn from(i: u32) -> Self {
+                unsafe { transmute(i) }
+            }
+        }
+        impl Into<u32> for $name {
+            fn into(self) -> u32 {
+                unsafe { transmute(self) }
+            }
+        }
+        impl $name {
+            pub fn as_int(&self) -> u32 {
+                (*self).into()
+            }
+        }
+    };
+}
+
 // Register: enum <-> integer
-impl From<u32> for x86_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl x86_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
+impl_from_into_int!(arm_reg);
+impl_from_into_int!(arm64_reg);
+impl_from_into_int!(mips_reg);
+impl_from_into_int!(x86_reg);
+impl_from_into_int!(ppc_reg);
+impl_from_into_int!(sparc_reg);
+impl_from_into_int!(sysz_reg);
+impl_from_into_int!(xcore_reg);
 
-impl From<u32> for arm64_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm64_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for arm_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for mips_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl mips_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for ppc_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl ppc_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sparc_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sparc_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sysz_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sysz_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for xcore_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl xcore_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for tms320c64x_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl tms320c64x_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
+#[cfg(feature = "capstone4")]
+impl_from_into_int!(m68k_reg);
+#[cfg(feature = "capstone4")]
+impl_from_into_int!(tms320c64x_reg);
+#[cfg(feature = "capstone4")]
+impl_from_into_int!(m680x_reg);
 
 // Groups: enum <-> integer.
-impl From<u32> for x86_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl x86_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
+impl_from_into_int!(arm_insn_group);
+impl_from_into_int!(arm64_insn_group);
+impl_from_into_int!(mips_insn_group);
+impl_from_into_int!(x86_insn_group);
+impl_from_into_int!(ppc_insn_group);
+impl_from_into_int!(sparc_insn_group);
+impl_from_into_int!(sysz_insn_group);
+impl_from_into_int!(xcore_insn_group);
 
-impl From<u32> for arm64_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm64_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for arm_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for mips_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl mips_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for ppc_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl ppc_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sparc_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sparc_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sysz_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sysz_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for xcore_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl xcore_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
+#[cfg(feature = "capstone4")]
+impl_from_into_int!(tms320c64x_insn_group);
+#[cfg(feature = "capstone4")]
+impl_from_into_int!(evm_insn_group);
