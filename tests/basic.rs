@@ -1,11 +1,11 @@
-extern crate capstone_rust;
+extern crate falcon_capstone;
 
-use capstone_rust::capstone as cs;
+use falcon_capstone::capstone as cs;
 
 #[test]
 fn single_instr() {
     let code = vec![0xe9, 0x0c, 0x00, 0x00, 0x00];
-    let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
 
     let buf = dec.disasm(code.as_slice(), 0, 0).unwrap();
 
@@ -20,7 +20,7 @@ fn single_instr() {
 #[test]
 fn multiple_instr() {
     let code = vec![0x83, 0xc3, 0x02, 0x66, 0xb8, 0x2c, 0x00, 0x55, 0x8d, 0x73, 0x10];
-    let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
 
     dec.option(cs::cs_opt_type::CS_OPT_DETAIL, cs::cs_opt_value::CS_OPT_ON).unwrap();
 
@@ -49,7 +49,13 @@ fn multiple_instr() {
 
     let instr4 = buf.get(3).unwrap();
     assert_eq!(instr4.mnemonic, "lea");
-    assert_eq!(instr4.op_str, "esi, dword ptr [ebx + 0x10]");
+    assert_eq!(instr4.op_str,
+        if cfg!(feature = "capstone4") {
+            // Capstone 4 changed the pretty printing format slightly
+            "esi, [ebx + 0x10]"
+        } else {
+            "esi, dword ptr [ebx + 0x10]"
+        });
     assert_eq!(instr4.address, 8);
     assert_eq!(instr4.id, cs::InstrIdArch::X86(cs::x86_insn::X86_INS_LEA));
     assert_eq!(instr4.size, 3);
