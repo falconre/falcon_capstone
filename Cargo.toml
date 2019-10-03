@@ -1,6 +1,6 @@
 [package]
 name = "falcon_capstone"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Marco Milanese <marcomilanese7@gmail.com>", "Alex Eubanks <endeavor@rainbowsandpwnies.com>"]
 homepage = "https://github.com/falconre/falcon_capstone"
 repository = "https://github.com/falconre/falcon_capstone"
