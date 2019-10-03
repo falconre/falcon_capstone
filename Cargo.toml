@@ -19,4 +19,4 @@ libc = "0.2"
 static = []
 
 [build-dependencies]
-bindgen = "0.30.0"
+bindgen = "0.51.0"

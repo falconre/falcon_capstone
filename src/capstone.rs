@@ -16,7 +16,7 @@ use std::mem::transmute;
 /// # Examples
 ///
 /// ```
-/// use capstone_rust::capstone as cs;
+/// use falcon_capstone::capstone as cs;
 ///
 /// let (major, minor, combined) = cs::engine_version();
 /// println!("Capstone version: {}.{}", major, minor);
@@ -39,7 +39,7 @@ pub fn engine_version() -> (i32, i32, u32) {
 /// # Examples
 ///
 /// ```
-/// use capstone_rust::capstone as cs;
+/// use falcon_capstone::capstone as cs;
 ///
 /// let supported = if cs::support_arch(cs::cs_arch::CS_ARCH_ARM) { "is" } else { "isn't" };
 /// println!("The ARM architecture {} supported!", supported);
@@ -101,6 +101,7 @@ fn to_res(code: cs_err) -> Result<(), CsErr> {
 ///
 /// A Rust-friendly struct to access fields of a disassembled instruction. This is a safe wrapper
 /// over cs_insn.
+#[derive(Debug)]
 pub struct Instr {
     /// Instruction ID. Find the instruction id in the '[ARCH]_insn' enum in the header file of
     /// corresponding architecture.
@@ -222,10 +223,10 @@ impl Instr {
 /// # Examples
 ///
 /// ```
-/// use capstone_rust::capstone as cs;
+/// use falcon_capstone::capstone as cs;
 /// let code = vec![0x01, 0xc3]; // add ebx, eax
 ///
-/// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+/// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
 ///
 /// let buf = dec.disasm(code.as_slice(), 0, 0).unwrap();
 /// let add = buf.get(0).unwrap();
@@ -233,7 +234,7 @@ impl Instr {
 ///     assert_eq!(insn, cs::x86_insn::X86_INS_ADD);
 /// }
 /// ```
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 pub enum InstrIdArch {
     X86(x86_insn),
     ARM64(arm64_insn),
@@ -253,16 +254,17 @@ pub enum InstrIdArch {
 /// # Examples
 ///
 /// ```
-/// use capstone_rust::capstone as cs;
+/// use falcon_capstone::capstone as cs;
 /// let code = vec![0x01, 0xc3]; // add ebx, eax
 ///
-/// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+/// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
 /// dec.option(cs::cs_opt_type::CS_OPT_DETAIL, cs::cs_opt_value::CS_OPT_ON).unwrap();
 ///
 /// let buf = dec.disasm(code.as_slice(), 0, 0).unwrap();
 /// let detail = buf.get(0).unwrap().detail.unwrap(); // `buf` contains only one 'add'.
 /// assert_eq!(dec.reg_name(detail.regs_write[0]), Some("eflags"));
 /// ```
+#[derive(Debug)]
 pub struct Details {
     /// List of implicit registers read by this insn.
     pub regs_read: Vec<u32>,
@@ -278,6 +280,7 @@ pub struct Details {
 }
 
 /// Architecture-specific part of detail.
+#[derive(Debug)]
 pub enum DetailsArch {
     X86(cs_x86),
     ARM64(cs_arm64),
@@ -292,6 +295,7 @@ pub enum DetailsArch {
 /// Buffer of disassembled instructions.
 ///
 /// Provides a Rust-friendly interface to read the buffer of instructions disassembled by Capstone.
+#[derive(Debug)]
 pub struct InstrBuf {
     ptr: *mut cs_insn,
     count: usize,
@@ -340,6 +344,7 @@ impl InstrBuf {
 /// Disassembled instructions iterator.
 ///
 /// Iterate over the instructions of a buffer of disassembled instructions.
+#[derive(Debug)]
 pub struct InstrIter<'a> {
     buf: &'a InstrBuf,
     current: usize,
@@ -364,6 +369,7 @@ impl<'a> InstrIter<'a> {
 }
 
 /// Capstone handle.
+#[derive(Debug)]
 pub struct Capstone {
     handle: Cell<csh>,
     details_on: Cell<bool>,
@@ -436,20 +442,20 @@ impl Capstone {
     /// # Examples
     ///
     /// ```
-    /// use capstone_rust::capstone as cs;
+    /// use falcon_capstone::capstone as cs;
     /// let code = vec![0x55, 0x48, 0x8b, 0x05, 0xb8, 0x13, 0x00, 0x00];
     ///
-    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
     /// let buf = dec.disasm(code.as_slice(), 0, 0).unwrap();
     /// for x in buf.iter() {
     ///     println!("{:x}: {} {}", x.address, x.mnemonic, x.op_str);
     /// }
     /// ```
     /// ```
-    /// use capstone_rust::capstone as cs;
+    /// use falcon_capstone::capstone as cs;
     /// let code = vec![0x55, 0x48, 0x8b, 0x05, 0xb8, 0x13, 0x00, 0x00];
     ///
-    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
     /// let buf = dec.disasm(code.as_slice(), 0, 0).unwrap();
     /// assert_eq!(buf.get(0).unwrap().mnemonic, "push");
     /// assert_eq!(buf.get(1).unwrap().mnemonic, "dec");
@@ -478,9 +484,9 @@ impl Capstone {
     /// # Examples
     ///
     /// ```
-    /// use capstone_rust::capstone as cs;
+    /// use falcon_capstone::capstone as cs;
     ///
-    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
     /// assert_eq!(dec.reg_name(21).unwrap(), "ebx");
     /// ```
     pub fn reg_name(&self, reg_id: u32) -> Option<&str> {
@@ -506,9 +512,9 @@ impl Capstone {
     /// # Examples
     ///
     /// ```
-    /// use capstone_rust::capstone as cs;
+    /// use falcon_capstone::capstone as cs;
     ///
-    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    /// let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
     /// assert_eq!(dec.group_name(2).unwrap(), "call");
     /// ```
     pub fn group_name(&self, group_id: u32) -> Option<&str> {

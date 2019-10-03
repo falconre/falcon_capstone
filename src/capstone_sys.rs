@@ -26,7 +26,7 @@ pub const CS_MODE_BIG_ENDIAN: cs_mode = cs_mode_CS_MODE_BIG_ENDIAN;
 pub const CS_MODE_MIPS32: cs_mode = cs_mode_CS_MODE_MIPS32;
 pub const CS_MODE_MIPS64: cs_mode = cs_mode_CS_MODE_MIPS64;
 
-// Operand enum getters.
+// Union field getters.
 impl cs_x86_op {
     pub fn reg(&self) -> x86_reg {
         return unsafe { self.__bindgen_anon_1.reg };
@@ -151,180 +151,43 @@ impl cs_xcore_op {
     }
 }
 
+macro_rules! impl_from_into_int {
+    ($name:ident) => {
+        impl From<u32> for $name {
+            fn from(i: u32) -> Self {
+                unsafe { transmute(i) }
+            }
+        }
+        impl Into<u32> for $name {
+            fn into(self) -> u32 {
+                unsafe { transmute(self) }
+            }
+        }
+        impl $name {
+            pub fn as_int(&self) -> u32 {
+                (*self).into()
+            }
+        }
+    };
+}
+
 // Register: enum <-> integer
-impl From<u32> for x86_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl x86_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
+impl_from_into_int!(arm_reg);
+impl_from_into_int!(arm64_reg);
+impl_from_into_int!(mips_reg);
+impl_from_into_int!(x86_reg);
+impl_from_into_int!(ppc_reg);
+impl_from_into_int!(sparc_reg);
+impl_from_into_int!(sysz_reg);
+impl_from_into_int!(xcore_reg);
 
-impl From<u32> for arm64_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm64_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for arm_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for mips_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl mips_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for ppc_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl ppc_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sparc_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sparc_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sysz_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sysz_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for xcore_reg {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl xcore_reg {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
 
 // Groups: enum <-> integer.
-impl From<u32> for x86_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl x86_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for arm64_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm64_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for arm_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl arm_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for mips_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl mips_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for ppc_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl ppc_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sparc_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sparc_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for sysz_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl sysz_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
-
-impl From<u32> for xcore_insn_group {
-    fn from(i: u32) -> Self {
-        return unsafe { transmute::<u32, Self>(i) }
-    }
-}
-impl xcore_insn_group {
-    pub fn as_int(&self) -> u32 {
-        return unsafe { transmute::<Self, u32>(*self) }
-    }
-}
+impl_from_into_int!(arm_insn_group);
+impl_from_into_int!(arm64_insn_group);
+impl_from_into_int!(mips_insn_group);
+impl_from_into_int!(x86_insn_group);
+impl_from_into_int!(ppc_insn_group);
+impl_from_into_int!(sparc_insn_group);
+impl_from_into_int!(sysz_insn_group);
+impl_from_into_int!(xcore_insn_group);
