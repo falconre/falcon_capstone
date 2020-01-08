@@ -1,9 +1,9 @@
 // This example shows how to disassemble some instructions
 // and print them to stdout.
 
-extern crate capstone_rust;
+extern crate falcon_capstone;
 
-use capstone_rust::capstone as cs;
+use falcon_capstone::capstone as cs;
 
 fn main() {
     // Buffer of code.
@@ -13,7 +13,7 @@ fn main() {
     // architecture (x86 in this case) and the hardware mode (32 bit in this case).
     // As many other APIs `new` returns a `Result`, in a less trivial case you should
     // ensure that the API didn't fail.
-    let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::cs_mode::CS_MODE_32).unwrap();
+    let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
 
     // Disassemble the instructions. This function accepts three arguments: the code
     // buffer (a Vec<u8>), the address of the first instruction and the number of
