@@ -17,6 +17,7 @@ libc = "0.2"
 
 [features]
 static = []
+capstone4 = []
 
 [build-dependencies]
 bindgen = "0.51.0"

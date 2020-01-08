@@ -133,14 +133,23 @@ impl Instr {
         assert_ne!(arch, cs_arch::CS_ARCH_ALL);
 
         let id = unsafe { match arch {
-            cs_arch::CS_ARCH_ARM   => { InstrIdArch::ARM  (transmute::<u32,arm_insn>(instr.id))},
-            cs_arch::CS_ARCH_ARM64 => { InstrIdArch::ARM64(transmute::<u32,arm64_insn>(instr.id))},
-            cs_arch::CS_ARCH_MIPS  => { InstrIdArch::MIPS (transmute::<u32,mips_insn>(instr.id))},
-            cs_arch::CS_ARCH_X86   => { InstrIdArch::X86  (transmute::<u32,x86_insn>(instr.id))},
-            cs_arch::CS_ARCH_PPC   => { InstrIdArch::PPC  (transmute::<u32,ppc_insn>(instr.id))},
-            cs_arch::CS_ARCH_SPARC => { InstrIdArch::SPARC(transmute::<u32,sparc_insn>(instr.id))},
-            cs_arch::CS_ARCH_SYSZ  => { InstrIdArch::SYSZ (transmute::<u32,sysz_insn>(instr.id))},
-            cs_arch::CS_ARCH_XCORE => { InstrIdArch::XCORE(transmute::<u32,xcore_insn>(instr.id))},
+            cs_arch::CS_ARCH_ARM        => { InstrIdArch::ARM       (transmute::<u32,arm_insn>(instr.id))},
+            cs_arch::CS_ARCH_ARM64      => { InstrIdArch::ARM64     (transmute::<u32,arm64_insn>(instr.id))},
+            cs_arch::CS_ARCH_MIPS       => { InstrIdArch::MIPS      (transmute::<u32,mips_insn>(instr.id))},
+            cs_arch::CS_ARCH_X86        => { InstrIdArch::X86       (transmute::<u32,x86_insn>(instr.id))},
+            cs_arch::CS_ARCH_PPC        => { InstrIdArch::PPC       (transmute::<u32,ppc_insn>(instr.id))},
+            cs_arch::CS_ARCH_SPARC      => { InstrIdArch::SPARC     (transmute::<u32,sparc_insn>(instr.id))},
+            cs_arch::CS_ARCH_SYSZ       => { InstrIdArch::SYSZ      (transmute::<u32,sysz_insn>(instr.id))},
+            cs_arch::CS_ARCH_XCORE      => { InstrIdArch::XCORE     (transmute::<u32,xcore_insn>(instr.id))},
+
+            #[cfg(feature = "capstone4")]
+            cs_arch::CS_ARCH_M68K       => { InstrIdArch::M68K      (transmute::<u32,m68k_insn>(instr.id))},
+            #[cfg(feature = "capstone4")]
+            cs_arch::CS_ARCH_TMS320C64X => { InstrIdArch::TMS320C64X(transmute::<u32,tms320c64x_insn>(instr.id))},
+            #[cfg(feature = "capstone4")]
+            cs_arch::CS_ARCH_M680X      => { InstrIdArch::M680X     (transmute::<u32,m680x_insn>(instr.id))},
+            #[cfg(feature = "capstone4")]
+            cs_arch::CS_ARCH_EVM        => { InstrIdArch::EVM       (transmute::<u32,evm_insn>(instr.id))},
             _ => panic!("Unexpected arch: {:?}", arch),
         }};
 
@@ -170,14 +179,23 @@ impl Instr {
             let arch_union = detail.__bindgen_anon_1;
 
             let arch = unsafe { match arch {
-                cs_arch::CS_ARCH_ARM   => { DetailsArch::ARM  (arch_union.arm)   },
-                cs_arch::CS_ARCH_ARM64 => { DetailsArch::ARM64(arch_union.arm64) },
-                cs_arch::CS_ARCH_MIPS  => { DetailsArch::MIPS (arch_union.mips)  },
-                cs_arch::CS_ARCH_X86   => { DetailsArch::X86  (arch_union.x86)   },
-                cs_arch::CS_ARCH_PPC   => { DetailsArch::PPC  (arch_union.ppc)   },
-                cs_arch::CS_ARCH_SPARC => { DetailsArch::SPARC(arch_union.sparc) },
-                cs_arch::CS_ARCH_SYSZ  => { DetailsArch::SYSZ (arch_union.sysz)  },
-                cs_arch::CS_ARCH_XCORE => { DetailsArch::XCORE(arch_union.xcore) },
+                cs_arch::CS_ARCH_ARM        => { DetailsArch::ARM       (arch_union.arm)        },
+                cs_arch::CS_ARCH_ARM64      => { DetailsArch::ARM64     (arch_union.arm64)      },
+                cs_arch::CS_ARCH_MIPS       => { DetailsArch::MIPS      (arch_union.mips)       },
+                cs_arch::CS_ARCH_X86        => { DetailsArch::X86       (arch_union.x86)        },
+                cs_arch::CS_ARCH_PPC        => { DetailsArch::PPC       (arch_union.ppc)        },
+                cs_arch::CS_ARCH_SPARC      => { DetailsArch::SPARC     (arch_union.sparc)      },
+                cs_arch::CS_ARCH_SYSZ       => { DetailsArch::SYSZ      (arch_union.sysz)       },
+                cs_arch::CS_ARCH_XCORE      => { DetailsArch::XCORE     (arch_union.xcore)      },
+
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_M68K       => { DetailsArch::M68K      (arch_union.m68k)       },
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_TMS320C64X => { DetailsArch::TMS320C64X(arch_union.tms320c64x) },
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_M680X      => { DetailsArch::M680X     (arch_union.m680x)      },
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_EVM        => { DetailsArch::EVM       (arch_union.evm)        },
                 _ => panic!("Unexpected arch: {:?}", arch),
             }};
 
@@ -244,6 +262,15 @@ pub enum InstrIdArch {
     SPARC(sparc_insn),
     SYSZ(sysz_insn),
     XCORE(xcore_insn),
+
+    #[cfg(feature = "capstone4")]
+    M68K(m68k_insn),
+    #[cfg(feature = "capstone4")]
+    TMS320C64X(tms320c64x_insn),
+    #[cfg(feature = "capstone4")]
+    M680X(m680x_insn),
+    #[cfg(feature = "capstone4")]
+    EVM(evm_insn),
 }
 
 /// Details of an instruction.
@@ -290,6 +317,15 @@ pub enum DetailsArch {
     SPARC(cs_sparc),
     SYSZ(cs_sysz),
     XCORE(cs_xcore),
+
+    #[cfg(feature = "capstone4")]
+    M68K(cs_m68k),
+    #[cfg(feature = "capstone4")]
+    TMS320C64X(cs_tms320c64x),
+    #[cfg(feature = "capstone4")]
+    M680X(cs_m680x),
+    #[cfg(feature = "capstone4")]
+    EVM(cs_evm),
 }
 
 /// Buffer of disassembled instructions.
