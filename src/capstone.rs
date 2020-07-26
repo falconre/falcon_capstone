@@ -419,7 +419,7 @@ impl Drop for Capstone {
         unsafe { err = cs_close(self.handle.as_ptr()); }
 
         if err != cs_err::CS_ERR_OK {
-            panic!("{}", CsErr::new(err).description())
+            panic!("{}", CsErr::new(err).to_string())
         }
     }
 }

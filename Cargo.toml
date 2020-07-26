@@ -16,6 +16,7 @@ name = "falcon_capstone"
 libc = "0.2"
 
 [features]
+default = ["capstone4"]
 static = []
 capstone4 = []
 
