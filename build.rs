@@ -4,7 +4,15 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    #[cfg(not(feature = "static"))]
     println!("cargo:rustc-link-lib=capstone");
+
+    #[cfg(feature = "static")]
+    println!("cargo:rustc-link-lib=static=capstone");
+
+    // https://github.com/aquynh/capstone/blob/71f5c64c43b9868ab08c3a9bad82ba3563e9436d/COMPILE.TXT#L100
+    #[cfg(all(feature = "static", target_os = "linux"))]
+    println!("cargo:rustc-link-search=native=/usr/lib");
 
     let bindings = bindgen::Builder::default()
         .header("src/wrapper.h")
