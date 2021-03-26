@@ -10,9 +10,11 @@ fn main() {
     #[cfg(feature = "static")]
     println!("cargo:rustc-link-lib=static=capstone");
 
-    // https://github.com/aquynh/capstone/blob/71f5c64c43b9868ab08c3a9bad82ba3563e9436d/COMPILE.TXT#L100
-    #[cfg(all(feature = "static", target_os = "linux"))]
-    println!("cargo:rustc-link-search=native=/usr/lib");
+    #[cfg(all(feature = "capstone4", feature = "static", target_os = "linux"))]
+    pkg_config::Config::new().atleast_version("4.0.0").statik(true).probe("capstone").unwrap();
+
+    #[cfg(all(not(feature = "capstone4"), feature = "static", target_os = "linux"))]
+    pkg_config::Config::new().statik(true).probe("capstone").unwrap();
 
     let bindings = bindgen::Builder::default()
         .header("src/wrapper.h")
