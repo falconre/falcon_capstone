@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/falconre/falcon_capstone.svg?branch=master)](https://travis-ci.org/falconre/falcon_capstone.svg?branch=master)
+![build](https://github.com/falconre/falcon_capstone/actions/workflows/rust/badge.svg)
 
 # falcon_capstone
 

@@ -1,7 +1,7 @@
 on: [push, pull_request]
-name: All Checks
+name: rust
 jobs:
-  clippy_check:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,11 +16,6 @@ jobs:
           cd capstone-4.0.2
           make -j 8
           sudo make install
-      - uses: actions-rs/toolchain@v1
-        with:
-            toolchain: nightly-2021-07-27
-            components: clippy
-            override: true
       - run: rustup component add rustfmt
       - name: cargo test
         uses: actions-rs/cargo@v1
