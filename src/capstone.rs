@@ -341,7 +341,7 @@ pub struct InstrBuf {
 
 impl Drop for InstrBuf {
     fn drop(&mut self) {
-        unsafe { cs_free(self.ptr, self.count); }
+        unsafe { cs_free(self.ptr, self.count as u64); }
     }
 }
 
@@ -446,7 +446,7 @@ impl Capstone {
 
         unsafe {
             let value = transmute::<cs_opt_value, u32>(value) as usize;
-            err = cs_option(self.handle.get(), typ, value);
+            err = cs_option(self.handle.get(), typ, value as u64);
         };
         to_res(err)?;
 
@@ -502,14 +502,14 @@ impl Capstone {
         let res;
 
         unsafe {
-            res = cs_disasm(self.handle.get(), buf.as_ptr(), buf.len(), addr, count, &mut insn);
+            res = cs_disasm(self.handle.get(), buf.as_ptr(), buf.len() as u64, addr, count as u64, &mut insn);
         }
         if res == 0 {
             let err = unsafe { cs_errno(self.handle.get()) };
             return Err(CsErr::new(err));
         }
 
-        Ok(InstrBuf::new(insn, res, self.details_on.get(), self.arch))
+        Ok(InstrBuf::new(insn, res as usize, self.details_on.get(), self.arch))
     }
 
     /// Return friendly name of register in a string.
