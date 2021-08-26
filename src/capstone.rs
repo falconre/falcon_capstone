@@ -103,7 +103,7 @@ fn to_res(code: cs_err) -> Result<(), CsErr> {
 /// over cs_insn.
 #[derive(Debug)]
 pub struct Instr {
-    /// Instruction ID. Find the instruction id in the '[ARCH]_insn' enum in the header file of
+    /// Instruction ID. Find the instruction id in the '{ARCH}_insn' enum in the header file of
     /// corresponding architecture.
     pub id: InstrIdArch,
 
