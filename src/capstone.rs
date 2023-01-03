@@ -525,7 +525,8 @@ impl Capstone {
     /// assert_eq!(buf.get(2).unwrap().mnemonic, "mov");
     /// ```
     pub fn disasm(&self, buf: &[u8], addr: u64, count: usize) -> Result<InstrBuf, CsErr> {
-        let mut insn: *mut cs_insn = 0 as *mut cs_insn;
+        // let mut insn: *mut cs_insn = 0 as *mut cs_insn;
+        let mut insn: *mut cs_insn = std::ptr::null_mut::<cs_insn>();
         let res;
 
         unsafe {
