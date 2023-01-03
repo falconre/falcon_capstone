@@ -424,10 +424,7 @@ impl<'a> Iterator for InstrIter<'a> {
 impl<'a> InstrIter<'a> {
     /// Create an `InstrIter` from the beginning of `buf`.
     pub fn new(buf: &InstrBuf) -> InstrIter {
-        InstrIter {
-            buf,
-            current: 0,
-        }
+        InstrIter { buf, current: 0 }
     }
 }
 
@@ -544,12 +541,7 @@ impl Capstone {
             return Err(CsErr::new(err));
         }
 
-        Ok(InstrBuf::new(
-            insn,
-            res,
-            self.details_on.get(),
-            self.arch,
-        ))
+        Ok(InstrBuf::new(insn, res, self.details_on.get(), self.arch))
     }
 
     /// Return friendly name of register in a string.
