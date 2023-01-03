@@ -390,7 +390,8 @@ impl InstrBuf {
 
         let insn;
 
-        unsafe { insn = &(*(self.ptr.offset(index as isize))) }
+        // unsafe { insn = &(*(self.ptr.offset(index as isize))) }
+        unsafe { insn = &(*(self.ptr.add(index))) }
         Some(Instr::new(insn, self.decode_detail, self.arch))
     }
 
