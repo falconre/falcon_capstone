@@ -109,7 +109,7 @@ impl cs_arm64_op {
         unsafe { self.__bindgen_anon_1.sys }
     }
     pub fn prefetch(&self) -> &arm64_prefetch_op {
-        return unsafe { &self.__bindgen_anon_1.prefetch };
+        unsafe { &self.__bindgen_anon_1.prefetch }
     }
     pub fn barrier(&self) -> &arm64_barrier_op {
         unsafe { &self.__bindgen_anon_1.barrier }
