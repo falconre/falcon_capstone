@@ -91,7 +91,7 @@ impl cs_x86 {
 
 impl cs_arm64_op {
     pub fn reg(&self) -> arm64_reg {
-        unsafe { self.__bindgen_anon_1.reg.into() }
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn imm(&self) -> i64 {
         unsafe { self.__bindgen_anon_1.imm }
@@ -120,7 +120,7 @@ impl cs_arm_op {
     pub fn reg(&self) -> arm_reg {
         #[cfg(not(feature = "capstone4"))]
         unsafe {
-            self.__bindgen_anon_1.reg.into()
+            self.__bindgen_anon_1.reg
         }
 
         // capstone/arm.h uses a plain int for the reg field rather than an arm_reg for some
@@ -146,7 +146,7 @@ impl cs_arm_op {
 
 impl cs_mips_op {
     pub fn reg(&self) -> mips_reg {
-        unsafe { self.__bindgen_anon_1.reg.into() }
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn imm(&self) -> i64 {
         unsafe { self.__bindgen_anon_1.imm }
@@ -158,7 +158,7 @@ impl cs_mips_op {
 
 impl cs_ppc_op {
     pub fn reg(&self) -> ppc_reg {
-        unsafe { self.__bindgen_anon_1.reg.into() }
+        unsafe { self.__bindgen_anon_1.reg }
     }
     #[cfg(not(feature = "capstone4"))]
     pub fn imm(&self) -> i32 {
@@ -178,7 +178,7 @@ impl cs_ppc_op {
 
 impl cs_sparc_op {
     pub fn reg(&self) -> sparc_reg {
-        unsafe { self.__bindgen_anon_1.reg.into() }
+        unsafe { self.__bindgen_anon_1.reg }
     }
     #[cfg(not(feature = "capstone4"))]
     pub fn imm(&self) -> i32 {
@@ -195,7 +195,7 @@ impl cs_sparc_op {
 
 impl cs_sysz_op {
     pub fn reg(&self) -> sysz_reg {
-        unsafe { self.__bindgen_anon_1.reg.into() }
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn imm(&self) -> i64 {
         unsafe { self.__bindgen_anon_1.imm }
@@ -207,7 +207,7 @@ impl cs_sysz_op {
 
 impl cs_xcore_op {
     pub fn reg(&self) -> xcore_reg {
-        unsafe { self.__bindgen_anon_1.reg.into() }
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn imm(&self) -> i32 {
         unsafe { self.__bindgen_anon_1.imm }
