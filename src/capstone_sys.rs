@@ -8,7 +8,6 @@ use std::mem::transmute;
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
-
 pub const CS_MODE_LITTLE_ENDIAN: cs_mode = cs_mode_CS_MODE_LITTLE_ENDIAN;
 pub const CS_MODE_ARM: cs_mode = cs_mode_CS_MODE_ARM;
 pub const CS_MODE_16: cs_mode = cs_mode_CS_MODE_16;
@@ -116,7 +115,6 @@ impl cs_arm64_op {
     pub fn barrier(&self) -> &arm64_barrier_op {
         return unsafe { &self.__bindgen_anon_1.barrier };
     }
-
 }
 
 impl cs_arm_op {
@@ -269,7 +267,12 @@ impl cs_m68k_op {
         return unsafe { self.__bindgen_anon_1.reg };
     }
     pub fn reg_pair(&self) -> (m68k_reg, m68k_reg) {
-        return unsafe { (self.__bindgen_anon_1.reg_pair.reg_0, self.__bindgen_anon_1.reg_pair.reg_1) };
+        return unsafe {
+            (
+                self.__bindgen_anon_1.reg_pair.reg_0,
+                self.__bindgen_anon_1.reg_pair.reg_1,
+            )
+        };
     }
 }
 #[cfg(feature = "capstone4")]

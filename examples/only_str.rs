@@ -23,6 +23,9 @@ fn main() {
 
     // Iterate over the disassembled instructions and print them.
     for instr in buf.iter() {
-        println!("0x{:x}:\t{}\t{}", instr.address, instr.mnemonic, instr.op_str);
+        println!(
+            "0x{:x}:\t{}\t{}",
+            instr.address, instr.mnemonic, instr.op_str
+        );
     }
 }
