@@ -3,8 +3,7 @@
 #![allow(non_snake_case)]
 #![allow(improper_ctypes)]
 
-use std::convert::From;
-use std::mem::transmute;
+use std::{convert::From, mem::transmute};
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 

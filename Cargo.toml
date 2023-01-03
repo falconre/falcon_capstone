@@ -1,6 +1,6 @@
 [package]
 name = "falcon_capstone"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["Marco Milanese <marcomilanese7@gmail.com>", "Alex Eubanks <endeavor@rainbowsandpwnies.com>"]
 homepage = "https://github.com/falconre/falcon_capstone"
 repository = "https://github.com/falconre/falcon_capstone"
@@ -8,7 +8,7 @@ description = "Capstone bindings in rust"
 readme = "README.md"
 license = "LGPL-3.0"
 build = "build.rs"
-#edition = "2018"
+edition = "2021"
 
 [lib]
 name = "falcon_capstone"
@@ -25,5 +25,4 @@ capstone4 = []
 [build-dependencies]
 bindgen = "0.63"
 cmake = "0.1"
-#pkg-config = "0.3"
 fs_extra = "1.2"

@@ -1,12 +1,8 @@
 extern crate libc;
 
-pub use capstone_sys::*;
+pub use crate::capstone_sys::*;
 
-use std::cell::Cell;
-use std::error::Error;
-use std::ffi::CStr;
-use std::fmt;
-use std::mem::transmute;
+use std::{cell::Cell, error::Error, ffi::CStr, fmt, mem::transmute};
 
 /// Get the version of the capstone engine.
 ///
@@ -85,7 +81,7 @@ impl CsErr {
         // assert_ne!(code, cs_err::CS_ERR_OK);
         // cs_err can be CS_ERR_OK is there weren't enough bytes to disassemble
         // the instruction
-        CsErr { code: code }
+        CsErr { code }
     }
 
     /// Get the low-level cr_err code.
@@ -235,23 +231,23 @@ impl Instr {
             }
 
             Some(Details {
-                regs_read: regs_read,
-                regs_write: regs_write,
-                groups: groups,
-                arch: arch,
+                regs_read,
+                regs_write,
+                groups,
+                arch,
             })
         } else {
             None
         };
 
         Instr {
-            id: id,
+            id,
             address: instr.address,
             size: instr.size,
-            bytes: bytes,
-            mnemonic: mnemonic,
-            op_str: op_str,
-            detail: detail,
+            bytes,
+            mnemonic,
+            op_str,
+            detail,
         }
     }
 }
@@ -375,9 +371,9 @@ impl InstrBuf {
     pub fn new(insn: *mut cs_insn, count: usize, decode_detail: bool, arch: cs_arch) -> InstrBuf {
         InstrBuf {
             ptr: insn,
-            count: count,
-            decode_detail: decode_detail,
-            arch: arch,
+            count,
+            decode_detail,
+            arch,
         }
     }
 
@@ -470,7 +466,7 @@ impl Capstone {
         Ok(Capstone {
             handle: Cell::new(handle),
             details_on: Cell::new(false),
-            arch: arch,
+            arch,
         })
     }
 
