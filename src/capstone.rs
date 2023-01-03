@@ -424,7 +424,7 @@ impl<'a> InstrIter<'a> {
     /// Create an `InstrIter` from the beginning of `buf`.
     pub fn new(buf: &InstrBuf) -> InstrIter {
         InstrIter {
-            buf: buf,
+            buf,
             current: 0,
         }
     }
