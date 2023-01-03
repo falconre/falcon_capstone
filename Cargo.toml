@@ -8,6 +8,7 @@ description = "Capstone bindings in rust"
 readme = "README.md"
 license = "LGPL-3.0"
 build = "build.rs"
+#edition = "2018"
 
 [lib]
 name = "falcon_capstone"
@@ -18,8 +19,11 @@ libc = "0.2"
 [features]
 default = ["capstone4"]
 static = []
+vendored = []
 capstone4 = []
 
 [build-dependencies]
-bindgen = "0.59"
-pkg-config = "0.3"
+bindgen = "0.63"
+cmake = "0.1"
+#pkg-config = "0.3"
+fs_extra = "1.2"

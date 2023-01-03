@@ -27,7 +27,9 @@ pub fn engine_version() -> (i32, i32, u32) {
     let mut minor: i32 = Default::default();
     let combined;
 
-    unsafe { combined = cs_version(&mut major, &mut minor); };
+    unsafe {
+        combined = cs_version(&mut major, &mut minor);
+    };
 
     (major, minor, combined)
 }
@@ -58,7 +60,9 @@ impl fmt::Display for CsErr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let strerr;
         unsafe { strerr = CStr::from_ptr(cs_strerror(self.code)) };
-        let strerr = strerr.to_str().unwrap_or("Failed to creare the error message string");
+        let strerr = strerr
+            .to_str()
+            .unwrap_or("Failed to creare the error message string");
 
         write!(f, "{}", strerr)
     }
@@ -69,7 +73,9 @@ impl Error for CsErr {
         let strerr;
         unsafe { strerr = CStr::from_ptr(cs_strerror(self.code)) };
 
-        strerr.to_str().unwrap_or("Failed to creare the error message string")
+        strerr
+            .to_str()
+            .unwrap_or("Failed to creare the error message string")
     }
 }
 
@@ -79,7 +85,7 @@ impl CsErr {
         // assert_ne!(code, cs_err::CS_ERR_OK);
         // cs_err can be CS_ERR_OK is there weren't enough bytes to disassemble
         // the instruction
-        CsErr{code: code}
+        CsErr { code: code }
     }
 
     /// Get the low-level cr_err code.
@@ -132,26 +138,38 @@ impl Instr {
         assert_ne!(arch, cs_arch::CS_ARCH_MAX);
         assert_ne!(arch, cs_arch::CS_ARCH_ALL);
 
-        let id = unsafe { match arch {
-            cs_arch::CS_ARCH_ARM        => { InstrIdArch::ARM       (transmute::<u32,arm_insn>(instr.id))},
-            cs_arch::CS_ARCH_ARM64      => { InstrIdArch::ARM64     (transmute::<u32,arm64_insn>(instr.id))},
-            cs_arch::CS_ARCH_MIPS       => { InstrIdArch::MIPS      (transmute::<u32,mips_insn>(instr.id))},
-            cs_arch::CS_ARCH_X86        => { InstrIdArch::X86       (transmute::<u32,x86_insn>(instr.id))},
-            cs_arch::CS_ARCH_PPC        => { InstrIdArch::PPC       (transmute::<u32,ppc_insn>(instr.id))},
-            cs_arch::CS_ARCH_SPARC      => { InstrIdArch::SPARC     (transmute::<u32,sparc_insn>(instr.id))},
-            cs_arch::CS_ARCH_SYSZ       => { InstrIdArch::SYSZ      (transmute::<u32,sysz_insn>(instr.id))},
-            cs_arch::CS_ARCH_XCORE      => { InstrIdArch::XCORE     (transmute::<u32,xcore_insn>(instr.id))},
+        let id = unsafe {
+            match arch {
+                cs_arch::CS_ARCH_ARM => InstrIdArch::ARM(transmute::<u32, arm_insn>(instr.id)),
+                cs_arch::CS_ARCH_ARM64 => {
+                    InstrIdArch::ARM64(transmute::<u32, arm64_insn>(instr.id))
+                }
+                cs_arch::CS_ARCH_MIPS => InstrIdArch::MIPS(transmute::<u32, mips_insn>(instr.id)),
+                cs_arch::CS_ARCH_X86 => InstrIdArch::X86(transmute::<u32, x86_insn>(instr.id)),
+                cs_arch::CS_ARCH_PPC => InstrIdArch::PPC(transmute::<u32, ppc_insn>(instr.id)),
+                cs_arch::CS_ARCH_SPARC => {
+                    InstrIdArch::SPARC(transmute::<u32, sparc_insn>(instr.id))
+                }
+                cs_arch::CS_ARCH_SYSZ => InstrIdArch::SYSZ(transmute::<u32, sysz_insn>(instr.id)),
+                cs_arch::CS_ARCH_XCORE => {
+                    InstrIdArch::XCORE(transmute::<u32, xcore_insn>(instr.id))
+                }
 
-            #[cfg(feature = "capstone4")]
-            cs_arch::CS_ARCH_M68K       => { InstrIdArch::M68K      (transmute::<u32,m68k_insn>(instr.id))},
-            #[cfg(feature = "capstone4")]
-            cs_arch::CS_ARCH_TMS320C64X => { InstrIdArch::TMS320C64X(transmute::<u32,tms320c64x_insn>(instr.id))},
-            #[cfg(feature = "capstone4")]
-            cs_arch::CS_ARCH_M680X      => { InstrIdArch::M680X     (transmute::<u32,m680x_insn>(instr.id))},
-            #[cfg(feature = "capstone4")]
-            cs_arch::CS_ARCH_EVM        => { InstrIdArch::EVM       (transmute::<u32,evm_insn>(instr.id))},
-            _ => panic!("Unexpected arch: {:?}", arch),
-        }};
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_M68K => InstrIdArch::M68K(transmute::<u32, m68k_insn>(instr.id)),
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_TMS320C64X => {
+                    InstrIdArch::TMS320C64X(transmute::<u32, tms320c64x_insn>(instr.id))
+                }
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_M680X => {
+                    InstrIdArch::M680X(transmute::<u32, m680x_insn>(instr.id))
+                }
+                #[cfg(feature = "capstone4")]
+                cs_arch::CS_ARCH_EVM => InstrIdArch::EVM(transmute::<u32, evm_insn>(instr.id)),
+                _ => panic!("Unexpected arch: {:?}", arch),
+            }
+        };
 
         let mut bytes = Vec::new();
         for i in 0..instr.bytes.len() {
@@ -175,29 +193,31 @@ impl Instr {
         }
 
         let detail = if decode_detail {
-            let detail = unsafe {*instr.detail};
+            let detail = unsafe { *instr.detail };
             let arch_union = detail.__bindgen_anon_1;
 
-            let arch = unsafe { match arch {
-                cs_arch::CS_ARCH_ARM        => { DetailsArch::ARM       (arch_union.arm)        },
-                cs_arch::CS_ARCH_ARM64      => { DetailsArch::ARM64     (arch_union.arm64)      },
-                cs_arch::CS_ARCH_MIPS       => { DetailsArch::MIPS      (arch_union.mips)       },
-                cs_arch::CS_ARCH_X86        => { DetailsArch::X86       (arch_union.x86)        },
-                cs_arch::CS_ARCH_PPC        => { DetailsArch::PPC       (arch_union.ppc)        },
-                cs_arch::CS_ARCH_SPARC      => { DetailsArch::SPARC     (arch_union.sparc)      },
-                cs_arch::CS_ARCH_SYSZ       => { DetailsArch::SYSZ      (arch_union.sysz)       },
-                cs_arch::CS_ARCH_XCORE      => { DetailsArch::XCORE     (arch_union.xcore)      },
+            let arch = unsafe {
+                match arch {
+                    cs_arch::CS_ARCH_ARM => DetailsArch::ARM(arch_union.arm),
+                    cs_arch::CS_ARCH_ARM64 => DetailsArch::ARM64(arch_union.arm64),
+                    cs_arch::CS_ARCH_MIPS => DetailsArch::MIPS(arch_union.mips),
+                    cs_arch::CS_ARCH_X86 => DetailsArch::X86(arch_union.x86),
+                    cs_arch::CS_ARCH_PPC => DetailsArch::PPC(arch_union.ppc),
+                    cs_arch::CS_ARCH_SPARC => DetailsArch::SPARC(arch_union.sparc),
+                    cs_arch::CS_ARCH_SYSZ => DetailsArch::SYSZ(arch_union.sysz),
+                    cs_arch::CS_ARCH_XCORE => DetailsArch::XCORE(arch_union.xcore),
 
-                #[cfg(feature = "capstone4")]
-                cs_arch::CS_ARCH_M68K       => { DetailsArch::M68K      (arch_union.m68k)       },
-                #[cfg(feature = "capstone4")]
-                cs_arch::CS_ARCH_TMS320C64X => { DetailsArch::TMS320C64X(arch_union.tms320c64x) },
-                #[cfg(feature = "capstone4")]
-                cs_arch::CS_ARCH_M680X      => { DetailsArch::M680X     (arch_union.m680x)      },
-                #[cfg(feature = "capstone4")]
-                cs_arch::CS_ARCH_EVM        => { DetailsArch::EVM       (arch_union.evm)        },
-                _ => panic!("Unexpected arch: {:?}", arch),
-            }};
+                    #[cfg(feature = "capstone4")]
+                    cs_arch::CS_ARCH_M68K => DetailsArch::M68K(arch_union.m68k),
+                    #[cfg(feature = "capstone4")]
+                    cs_arch::CS_ARCH_TMS320C64X => DetailsArch::TMS320C64X(arch_union.tms320c64x),
+                    #[cfg(feature = "capstone4")]
+                    cs_arch::CS_ARCH_M680X => DetailsArch::M680X(arch_union.m680x),
+                    #[cfg(feature = "capstone4")]
+                    cs_arch::CS_ARCH_EVM => DetailsArch::EVM(arch_union.evm),
+                    _ => panic!("Unexpected arch: {:?}", arch),
+                }
+            };
 
             let mut regs_read = Vec::new();
             for i in 0..detail.regs_read_count {
@@ -231,7 +251,7 @@ impl Instr {
             bytes: bytes,
             mnemonic: mnemonic,
             op_str: op_str,
-            detail: detail
+            detail: detail,
         }
     }
 }
@@ -341,7 +361,9 @@ pub struct InstrBuf {
 
 impl Drop for InstrBuf {
     fn drop(&mut self) {
-        unsafe { cs_free(self.ptr, self.count as u64); }
+        unsafe {
+            cs_free(self.ptr, self.count);
+        }
     }
 }
 
@@ -351,7 +373,12 @@ impl InstrBuf {
     /// instructions in `insn`, if true `Instr` created by `get` will have `Details`. `arch` is the
     /// architecture to use to interpret the arch-specific part of cs_detail.
     pub fn new(insn: *mut cs_insn, count: usize, decode_detail: bool, arch: cs_arch) -> InstrBuf {
-        InstrBuf{ptr: insn, count: count, decode_detail: decode_detail, arch: arch}
+        InstrBuf {
+            ptr: insn,
+            count: count,
+            decode_detail: decode_detail,
+            arch: arch,
+        }
     }
 
     /// Get the number of instructions in this buffer.
@@ -400,7 +427,10 @@ impl<'a> Iterator for InstrIter<'a> {
 impl<'a> InstrIter<'a> {
     /// Create an `InstrIter` from the beginning of `buf`.
     pub fn new(buf: &InstrBuf) -> InstrIter {
-        InstrIter{buf: buf, current: 0}
+        InstrIter {
+            buf: buf,
+            current: 0,
+        }
     }
 }
 
@@ -416,7 +446,9 @@ impl Drop for Capstone {
     fn drop(&mut self) {
         let err;
 
-        unsafe { err = cs_close(self.handle.as_ptr()); }
+        unsafe {
+            err = cs_close(self.handle.as_ptr());
+        }
 
         if err != cs_err::CS_ERR_OK {
             panic!("{}", CsErr::new(err).to_string())
@@ -435,7 +467,11 @@ impl Capstone {
         unsafe { err = cs_open(arch, mode, &mut handle) };
         to_res(err)?;
 
-        Ok(Capstone{handle: Cell::new(handle), details_on: Cell::new(false), arch: arch})
+        Ok(Capstone {
+            handle: Cell::new(handle),
+            details_on: Cell::new(false),
+            arch: arch,
+        })
     }
 
     /// Set option for disassembling engine at runtime.
@@ -446,7 +482,7 @@ impl Capstone {
 
         unsafe {
             let value = transmute::<cs_opt_value, u32>(value) as usize;
-            err = cs_option(self.handle.get(), typ, value as u64);
+            err = cs_option(self.handle.get(), typ, value);
         };
         to_res(err)?;
 
@@ -502,14 +538,26 @@ impl Capstone {
         let res;
 
         unsafe {
-            res = cs_disasm(self.handle.get(), buf.as_ptr(), buf.len() as u64, addr, count as u64, &mut insn);
+            res = cs_disasm(
+                self.handle.get(),
+                buf.as_ptr(),
+                buf.len(),
+                addr,
+                count,
+                &mut insn,
+            );
         }
         if res == 0 {
             let err = unsafe { cs_errno(self.handle.get()) };
             return Err(CsErr::new(err));
         }
 
-        Ok(InstrBuf::new(insn, res as usize, self.details_on.get(), self.arch))
+        Ok(InstrBuf::new(
+            insn,
+            res as usize,
+            self.details_on.get(),
+            self.arch,
+        ))
     }
 
     /// Return friendly name of register in a string.
@@ -535,7 +583,7 @@ impl Capstone {
         };
 
         match name.to_str() {
-            Ok(s)  => Some(s),
+            Ok(s) => Some(s),
             Err(_) => None,
         }
     }
@@ -563,7 +611,7 @@ impl Capstone {
         };
 
         match name.to_str() {
-            Ok(s)  => Some(s),
+            Ok(s) => Some(s),
             Err(_) => None,
         }
     }
