@@ -65,222 +65,226 @@ pub const CS_MODE_M680X_HCS08: cs_mode = cs_mode_CS_MODE_M680X_HCS08;
 // Union field getters.
 impl cs_x86_op {
     pub fn reg(&self) -> x86_reg {
-        return unsafe { self.__bindgen_anon_1.reg };
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     #[cfg(not(feature = "capstone4"))]
     pub fn fp(&self) -> f64 {
-        return unsafe { self.__bindgen_anon_1.fp };
+        unsafe { self.__bindgen_anon_1.fp }
     }
     pub fn mem(&self) -> &x86_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
 #[cfg(feature = "capstone4")]
 impl cs_x86 {
     pub fn eflags(&self) -> u64 {
-        return unsafe { self.__bindgen_anon_1.eflags };
+        unsafe { self.__bindgen_anon_1.eflags }
     }
     pub fn fpu_flags(&self) -> u64 {
-        return unsafe { self.__bindgen_anon_1.fpu_flags };
+        unsafe { self.__bindgen_anon_1.fpu_flags }
     }
 }
 
 impl cs_arm64_op {
     pub fn reg(&self) -> arm64_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn fp(&self) -> f64 {
-        return unsafe { self.__bindgen_anon_1.fp };
+        unsafe { self.__bindgen_anon_1.fp }
     }
     pub fn mem(&self) -> &arm64_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
     pub fn pstate(&self) -> &arm64_pstate {
-        return unsafe { &self.__bindgen_anon_1.pstate };
+        unsafe { &self.__bindgen_anon_1.pstate }
     }
     pub fn sys(&self) -> u32 {
-        return unsafe { self.__bindgen_anon_1.sys };
+        unsafe { self.__bindgen_anon_1.sys }
     }
     pub fn prefetch(&self) -> &arm64_prefetch_op {
         return unsafe { &self.__bindgen_anon_1.prefetch };
     }
     pub fn barrier(&self) -> &arm64_barrier_op {
-        return unsafe { &self.__bindgen_anon_1.barrier };
+        unsafe { &self.__bindgen_anon_1.barrier }
     }
 }
 
 impl cs_arm_op {
     pub fn reg(&self) -> arm_reg {
         #[cfg(not(feature = "capstone4"))]
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe {
+            self.__bindgen_anon_1.reg.into()
+        }
 
         // capstone/arm.h uses a plain int for the reg field rather than an arm_reg for some
         // reason, so we have to do some weird `as` business to get this to typecheck
         #[cfg(feature = "capstone4")]
-        return unsafe { (self.__bindgen_anon_1.reg as u32).into() };
+        unsafe {
+            (self.__bindgen_anon_1.reg as u32).into()
+        }
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn fp(&self) -> f64 {
-        return unsafe { self.__bindgen_anon_1.fp };
+        unsafe { self.__bindgen_anon_1.fp }
     }
     pub fn mem(&self) -> &arm_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
     pub fn setend(&self) -> &arm_setend_type {
-        return unsafe { &self.__bindgen_anon_1.setend };
+        unsafe { &self.__bindgen_anon_1.setend }
     }
 }
 
 impl cs_mips_op {
     pub fn reg(&self) -> mips_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn mem(&self) -> &mips_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
 impl cs_ppc_op {
     pub fn reg(&self) -> ppc_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     #[cfg(not(feature = "capstone4"))]
     pub fn imm(&self) -> i32 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     #[cfg(feature = "capstone4")]
     pub fn imm(&self) -> i64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn mem(&self) -> &ppc_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
     pub fn crx(&self) -> &ppc_op_crx {
-        return unsafe { &self.__bindgen_anon_1.crx };
+        unsafe { &self.__bindgen_anon_1.crx }
     }
 }
 
 impl cs_sparc_op {
     pub fn reg(&self) -> sparc_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     #[cfg(not(feature = "capstone4"))]
     pub fn imm(&self) -> i32 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     #[cfg(feature = "capstone4")]
     pub fn imm(&self) -> i64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn mem(&self) -> &sparc_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
 impl cs_sysz_op {
     pub fn reg(&self) -> sysz_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     pub fn imm(&self) -> i64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn mem(&self) -> &sysz_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
 impl cs_xcore_op {
     pub fn reg(&self) -> xcore_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn mem(&self) -> &xcore_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
 #[cfg(feature = "capstone4")]
 impl cs_tms320c64x_op {
     pub fn reg(&self) -> tms320c64x_reg {
-        return unsafe { self.__bindgen_anon_1.reg.into() };
+        unsafe { self.__bindgen_anon_1.reg.into() }
     }
     pub fn imm(&self) -> i32 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn mem(&self) -> &tms320c64x_op_mem {
-        return unsafe { &self.__bindgen_anon_1.mem };
+        unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
 #[cfg(feature = "capstone4")]
 impl cs_m680x_op {
     pub fn imm(&self) -> i32 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn reg(&self) -> m680x_reg {
-        return unsafe { self.__bindgen_anon_1.reg };
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn idx(&self) -> m680x_op_idx {
-        return unsafe { self.__bindgen_anon_1.idx };
+        unsafe { self.__bindgen_anon_1.idx }
     }
     pub fn rel(&self) -> m680x_op_rel {
-        return unsafe { self.__bindgen_anon_1.rel };
+        unsafe { self.__bindgen_anon_1.rel }
     }
     pub fn ext(&self) -> m680x_op_ext {
-        return unsafe { self.__bindgen_anon_1.ext };
+        unsafe { self.__bindgen_anon_1.ext }
     }
     pub fn direct_addr(&self) -> u8 {
-        return unsafe { self.__bindgen_anon_1.direct_addr };
+        unsafe { self.__bindgen_anon_1.direct_addr }
     }
     pub fn const_val(&self) -> u8 {
-        return unsafe { self.__bindgen_anon_1.const_val };
+        unsafe { self.__bindgen_anon_1.const_val }
     }
 }
 
 #[cfg(feature = "capstone4")]
 impl cs_m68k_op {
     pub fn imm(&self) -> u64 {
-        return unsafe { self.__bindgen_anon_1.imm };
+        unsafe { self.__bindgen_anon_1.imm }
     }
     pub fn dimm(&self) -> f64 {
-        return unsafe { self.__bindgen_anon_1.dimm };
+        unsafe { self.__bindgen_anon_1.dimm }
     }
     pub fn simm(&self) -> f32 {
-        return unsafe { self.__bindgen_anon_1.simm };
+        unsafe { self.__bindgen_anon_1.simm }
     }
     pub fn reg(&self) -> m68k_reg {
-        return unsafe { self.__bindgen_anon_1.reg };
+        unsafe { self.__bindgen_anon_1.reg }
     }
     pub fn reg_pair(&self) -> (m68k_reg, m68k_reg) {
-        return unsafe {
+        unsafe {
             (
                 self.__bindgen_anon_1.reg_pair.reg_0,
                 self.__bindgen_anon_1.reg_pair.reg_1,
             )
-        };
+        }
     }
 }
 #[cfg(feature = "capstone4")]
 impl m68k_op_size {
     pub fn cpu_size(&self) -> m68k_cpu_size {
-        return unsafe { self.__bindgen_anon_1.cpu_size };
+        unsafe { self.__bindgen_anon_1.cpu_size }
     }
     pub fn fpu_size(&self) -> m68k_fpu_size {
-        return unsafe { self.__bindgen_anon_1.fpu_size };
+        unsafe { self.__bindgen_anon_1.fpu_size }
     }
 }
 
