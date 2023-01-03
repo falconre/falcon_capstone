@@ -487,13 +487,7 @@ impl Capstone {
         // the `Details` struct must be created). Unfortunately Capstone doesn't provide a way to
         // get the value of an option, so we are forced to track the `DETAIL` option from here.
         if typ == cs_opt_type::CS_OPT_DETAIL {
-            self.details_on.set({
-                if value == cs_opt_value::CS_OPT_ON {
-                    true
-                } else {
-                    false
-                }
-            });
+            self.details_on.set(value == cs_opt_value::CS_OPT_ON);
         }
 
         Ok(())
