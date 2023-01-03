@@ -546,7 +546,7 @@ impl Capstone {
 
         Ok(InstrBuf::new(
             insn,
-            res as usize,
+            res,
             self.details_on.get(),
             self.arch,
         ))
