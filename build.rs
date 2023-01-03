@@ -1,7 +1,6 @@
 extern crate fs_extra;
 
-use std::env;
-use std::path::PathBuf;
+use std::{env, path::PathBuf};
 
 fn main() {
     build::build_and_link();
@@ -9,7 +8,7 @@ fn main() {
 }
 
 pub fn cargo_rerun_if_env_changed(env_var: &str) {
-    let target = std::env::var("TARGET").unwrap();
+    let target = env::var("TARGET").unwrap();
     println!("cargo:rerun-if-env-changed={}", env_var);
     println!("cargo:rerun-if-env-changed={}_{}", env_var, target);
     println!(
@@ -20,7 +19,7 @@ pub fn cargo_rerun_if_env_changed(env_var: &str) {
 }
 
 pub fn get_target_env_var(env_var: &str) -> Option<String> {
-    let target = std::env::var("TARGET").unwrap();
+    let target = env::var("TARGET").unwrap();
     std::env::var(format!("{}_{}", env_var, target))
         .or_else(|_| std::env::var(format!("{}_{}", env_var, target.replace('-', "_"))))
         .or_else(|_| std::env::var(env_var))
