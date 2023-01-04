@@ -10,7 +10,7 @@ on:
       - '**/.gitignore'
 jobs:
   build:
-    name: Linux ARMv7
+    name: Test on Linux aarch64
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
