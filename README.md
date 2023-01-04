@@ -36,7 +36,7 @@ For any reason if its not getting compiled in macOS complaining about `capstone/
 CPATH="/usr/local/include" LIBRARY_PATH="/usr/local/lib" cargo b
 ```
 assuming that `/usr/local/include` has the header files of capstone and `/usr/local/lib` having the capstone lib files.
-This is because CLANG in macOS has its `include` and `lib` path in a different folder and the header files will be in its search path.
+This is because CLANG in macOS has its `include` and `lib` path in a different folder location which might not be in the search path.
 
 ---
 License: LGPL-3
