@@ -9,18 +9,17 @@ on:
       - '**/README.md'
       - '**/.gitignore'
 jobs:
-  build:
-    name: Test Rust ${{ matrix.rust }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - { rust: stable, os: ubuntu-latest }
+  test:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/cargo@v1
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev
+      - run: rustup component add rustfmt
+      - name: cargo test
+        uses: actions-rs/cargo@v1
         with:
-          toolchain: ${{ matrix.rust }}
           command: test
           args: --features=vendored
