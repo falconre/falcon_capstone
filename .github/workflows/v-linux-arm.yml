@@ -1,4 +1,4 @@
-name: Vendored Linux Arm
+name: Vendored Linux aarch64
 on:
   pull_request:
   push:
@@ -21,10 +21,10 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-          target: armv7-unknown-linux-gnueabihf
+          target: aarch64-unknown-linux-gnu
           override: true
       - uses: actions-rs/cargo@v1
         with:
           use-cross: true
           command: test
-          args: --target armv7-unknown-linux-gnueabihf --features=vendored
+          args: --target aarch64-unknown-linux-gnu --features=vendored
