@@ -1,5 +1,13 @@
-on: [push, pull_request]
-name: rust
+name: Non-Vendored Linux x86_64
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - '**/README.md'
+      - '**/.gitignore'
 jobs:
   test:
     runs-on: ubuntu-latest
