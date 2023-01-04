@@ -9,7 +9,7 @@ on:
       - '**/README.md'
       - '**/.gitignore'
 jobs:
-  build:
+  test:
     name: Test on Linux aarch64
     runs-on: ubuntu-latest
     steps:
@@ -20,14 +20,14 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget llvm clang libclang-dev
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           target: aarch64-unknown-linux-gnu
           override: true
-      - uses: actions-rs/cargo@v1
+      - name: cargo test
+        uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: test
           args: --target aarch64-unknown-linux-gnu --features=vendored
