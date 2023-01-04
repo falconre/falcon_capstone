@@ -31,3 +31,6 @@ jobs:
           use-cross: true
           command: test
           args: --target aarch64-unknown-linux-gnu --features=vendored
+          env:
+            CC:   clang
+            CXX:  clang
