@@ -1,5 +1,6 @@
 [![Non-Vendored Linux x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-intel.yml/badge.svg)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-intel.yml)
 [![Vendored Linux x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-intel.yml/badge.svg)](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-intel.yml)
+[![Non-Vendored macOS x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-macos-intel.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-macos-intel.yml)
 
 # falcon_capstone
 
