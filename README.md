@@ -4,6 +4,9 @@
 [![Non-Vendored Linux aarch64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-aarch64.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-aarch64.yml)
 [![Vendored Linux aarch64](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-aarch64.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-aarch64.yml)
 
+[![Non-Vendored Linux Arm7](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-arm7.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-arm7.yml)
+[![Vendored Linux Arm7](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-arm7.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-arm7.yml)
+
 [![Non-Vendored macOS x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-macos-intel.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-macos-intel.yml)
 [![Vendored macOS x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/v-macos-intel.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/v-macos-intel.yml)
 
