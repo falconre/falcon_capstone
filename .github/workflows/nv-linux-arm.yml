@@ -17,6 +17,7 @@ env:
   LD: aarch64-linux-gnu-ld
   CPATH: /usr/local/include
   LIBRARY_PATH: /usr/local/lib
+  LD_LIBRARY_PATH: /usr/local/lib
 jobs:
   test:
     runs-on: ubuntu-latest
