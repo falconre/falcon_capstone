@@ -9,13 +9,10 @@ on:
       - '**/README.md'
       - '**/.gitignore'
 env:
-  RUSTFLAGS: -C linker=aarch64-linux-gnu-gcc
-  CMAKE_SYSTEM_PROCESSOR: aarch64
-  CMAKE_SYSTEM_NAME: Linux
-  CMAKE_C_COMPILER: aarch64-linux-gnu-gcc
-  CMAKE_CXX_COMPILER: aarch64-linux-gnu-g++
-  CC: aarch64-linux-gnu-gcc
-  CXX: aarch64-linux-gnu-g++
+  RUSTFLAGS: -C linker=aarch64-unknown-linux-gnu-gcc
+  CC: aarch64-unknown-linux-gnu-gcc
+  CXX: aarch64-unknown-linux-gnu-g++
+  LD: aarch64-unknown-linux-gnu-ld
   CPATH: /usr/local/include
   LIBRARY_PATH: /usr/local/lib
 jobs:
