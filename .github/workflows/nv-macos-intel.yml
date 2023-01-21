@@ -1,0 +1,27 @@
+name: Vendored macOS x86_64
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - '**/README.md'
+      - '**/.gitignore'
+      - '**/*.sh'
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          brew install llvm capstone
+      - run: rustup component add rustfmt
+      - name: cargo test
+        env:
+          CPATH: $(brew --prefix)/Cellar/capstone/4.0.2/include
+          LIBRARY_PATH: $(brew --prefix)/Cellar/capstone/4.0.2/lib
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
