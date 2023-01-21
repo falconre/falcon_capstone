@@ -1,0 +1,53 @@
+name: Non-Vendored Linux Arm7
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - '**/README.md'
+      - '**/.gitignore'
+env:
+  RUSTFLAGS: -C linker=arm-linux-gnueabihf-gcc
+  CMAKE_C_COMPILER: arm-linux-gnueabihf-gcc
+  CMAKE_CXX_COMPILER: arm-linux-gnueabihf-g++
+  CC: arm-linux-gnueabihf-gcc
+  CXX: arm-linux-gnueabihf-g++
+  LD: arm-linux-gnueabihf-ld
+  CPATH: /usr/local/include
+  LIBRARY_PATH: /usr/local/lib
+  LD_LIBRARY_PATH: /usr/local/lib
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+      - name: capstone from source
+        run: |
+          wget https://github.com/aquynh/capstone/archive/4.0.2.tar.gz
+          tar xf 4.0.2.tar.gz
+          cd capstone-4.0.2
+          mkdir build
+          cd build
+          uname -a
+          cmake ..
+          make -j 8
+          sudo make install
+      - name: Install cross-compile tool
+#        uses: actions-rs/toolchain@v1
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          toolchain: stable
+          target: armv7-unknown-linux-gnueabihf
+          override: true
+          components: rustfmt
+      - name: cargo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --target armv7-unknown-linux-gnueabihf
