@@ -16,6 +16,8 @@ env:
   CMAKE_CXX_COMPILER: aarch64-linux-gnu-g++
   CC: aarch64-linux-gnu-gcc
   CXX: aarch64-linux-gnu-g++
+  CPATH: /usr/local/include
+  LIBRARY_PATH: /usr/local/lib
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -45,9 +47,6 @@ jobs:
           override: true
           components: rustfmt
       - name: cargo test
-        env:
-          CPATH: /usr/local/include
-          LIBRARY_PATH: /usr/local/lib
         uses: actions-rs/cargo@v1
         with:
           command: test
