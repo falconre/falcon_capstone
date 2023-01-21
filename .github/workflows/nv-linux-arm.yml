@@ -45,6 +45,9 @@ jobs:
           override: true
           components: rustfmt
       - name: cargo test
+        env:
+          CPATH: /usr/local/include
+          LIBRARY_PATH: /usr/local/lib
         uses: actions-rs/cargo@v1
         with:
           command: test
