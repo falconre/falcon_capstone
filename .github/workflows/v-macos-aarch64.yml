@@ -26,5 +26,5 @@ jobs:
       - name: cargo test
         uses: actions-rs/cargo@v1
         with:
-          command: cargo test
-          args: --features=vendored --target=aarch64-apple-darwin
+          command: test
+          args: --target=aarch64-apple-darwin --features=vendored
