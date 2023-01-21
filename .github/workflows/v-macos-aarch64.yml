@@ -17,8 +17,7 @@ jobs:
         with:
           submodules: true
       - name: Install cross-compile tool
-#        uses: actions-rs/toolchain@v1
-        uses: taiki-e/setup-cross-toolchain-action@v1
+        uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           target: aarch64-apple-darwin
@@ -27,5 +26,5 @@ jobs:
       - name: cargo test
         uses: actions-rs/cargo@v1
         with:
-          command: test
+          command: cargo test
           args: --features=vendored --target=aarch64-apple-darwin
