@@ -13,17 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-#      - uses: actions-rs/toolchain@v1
-      - name: Install cros-compile tool
-        uses: taiki-e/setup-cross-toolchain-action@v1
-        with:
-          toolchain: stable
-          target: aarch64-unknown-linux-gnu
-          override: true
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-multilib
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-multilib gcc-aarch64-linux-gnu
       - name: capstone from source
         run: |
           wget https://github.com/aquynh/capstone/archive/4.0.2.tar.gz
@@ -35,6 +28,13 @@ jobs:
           cmake ..
           make -j 8
           sudo make install
+#      - uses: actions-rs/toolchain@v1
+      - name: Install cros-compile tool
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          toolchain: stable
+          target: aarch64-unknown-linux-gnu
+          override: true
       - run: rustup component add rustfmt
       - name: cargo test
         uses: actions-rs/cargo@v1
