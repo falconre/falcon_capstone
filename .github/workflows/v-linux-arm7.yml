@@ -22,7 +22,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-multilib
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
 
       - name: Install cross-compile tool
 #        uses: actions-rs/toolchain@v1
