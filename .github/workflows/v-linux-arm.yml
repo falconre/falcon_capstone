@@ -8,6 +8,8 @@ on:
     paths-ignore:
       - '**/README.md'
       - '**/.gitignore'
+env:
+  RUSTFLAGS: -C linker=$(DEB_HOST_GNU_TYPE)-gcc
 jobs:
   test:
     name: Test on Linux aarch64
