@@ -8,8 +8,6 @@ on:
     paths-ignore:
       - '**/README.md'
       - '**/.gitignore'
-#env:
-#  RUSTFLAGS: -C linker=aarch64-unknown-linux-gnu
 jobs:
   test:
     name: Test on Linux aarch64

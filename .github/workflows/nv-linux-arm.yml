@@ -1,4 +1,4 @@
-name: Non-Vendored Linux Arm
+name: Non-Vendored Linux aarch64
 on:
   pull_request:
   push:
@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
+#      - uses: actions-rs/toolchain@v1
+      - name: Install cros-compile tool
+        uses: taiki-e/setup-cross-toolchain-action@v1
         with:
           toolchain: stable
-          target: armv7-unknown-linux-gnueabihf
+          target: aarch64-unknown-linux-gnu
           override: true
       - name: install dependencies
         run: |
@@ -38,4 +40,4 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --target armv7-unknown-linux-gnueabihf
+          args: --target aarch64-unknown-linux-gnu
