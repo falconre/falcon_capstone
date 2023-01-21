@@ -8,6 +8,9 @@ on:
     paths-ignore:
       - '**/README.md'
       - '**/.gitignore'
+env:
+#  RUSTFLAGS: -C linker=gcc-aarch64-linux-gnu
+  CMAKE_SYSTEM_PROCESSOR: aarch64
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,8 +31,8 @@ jobs:
           cmake ..
           make -j 8
           sudo make install
-#      - uses: actions-rs/toolchain@v1
       - name: Install cros-compile tool
+#        uses: actions-rs/toolchain@v1
         uses: taiki-e/setup-cross-toolchain-action@v1
         with:
           toolchain: stable
