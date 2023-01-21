@@ -9,7 +9,7 @@ on:
       - '**/README.md'
       - '**/.gitignore'
 env:
-  RUSTFLAGS: -C linker=gcc-aarch64-linux-gnu
+  RUSTFLAGS: -C linker=gcc-11-aarch64-linux-gnu
 jobs:
   test:
     name: Test on Linux aarch64
