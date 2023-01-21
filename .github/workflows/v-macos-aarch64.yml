@@ -19,6 +19,7 @@ jobs:
       - name: install dependencies
         run: |
           brew install llvm
+          softwareupdate --install-rosetta
       - name: Install cross-compile tool
         uses: actions-rs/toolchain@v1
         with:
