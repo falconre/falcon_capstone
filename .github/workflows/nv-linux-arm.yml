@@ -9,7 +9,7 @@ on:
       - '**/README.md'
       - '**/.gitignore'
 env:
-#  RUSTFLAGS: -C linker=gcc-aarch64-linux-gnu
+  RUSTFLAGS: -C linker=gcc-aarch64-linux-gnu
   CMAKE_SYSTEM_PROCESSOR: aarch64
 jobs:
   test:
@@ -19,7 +19,7 @@ jobs:
       - name: install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-aarch64-linux-gnu
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
       - name: capstone from source
         run: |
           wget https://github.com/aquynh/capstone/archive/4.0.2.tar.gz
@@ -31,9 +31,9 @@ jobs:
           cmake ..
           make -j 8
           sudo make install
-      - name: Install cros-compile tool
-#        uses: actions-rs/toolchain@v1
-        uses: taiki-e/setup-cross-toolchain-action@v1
+      - name: Install cross-compile tool
+        uses: actions-rs/toolchain@v1
+#        uses: taiki-e/setup-cross-toolchain-action@v1
         with:
           toolchain: stable
           target: aarch64-unknown-linux-gnu
