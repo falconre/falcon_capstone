@@ -9,6 +9,8 @@ on:
       - '**/README.md'
       - '**/.gitignore'
       - '**/*.sh'
+env:
+  RUSTFLAGS: -C linker=aarch64-apple-darwin21.1-clang
 jobs:
   test:
     runs-on: macos-latest
