@@ -11,17 +11,15 @@ on:
       - '**/*.sh'
 jobs:
   test:
-    name: Test Rust ${{ matrix.rust }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - { rust: stable, os: macos-latest }
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions-rs/cargo@v1
+      - name: install dependencies
+        run: |
+          brew install llvm
+      - run: rustup component add rustfmt
+      - name: cargo test
+        uses: actions-rs/cargo@v1
         with:
-          toolchain: ${{ matrix.rust }}
           command: test
           args: --features=vendored
