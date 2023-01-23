@@ -1,4 +1,4 @@
-name: Vendored macOS aarch64
+name: Non-Vendored macOS aarch64
 on:
   pull_request:
   push:
@@ -18,11 +18,9 @@ jobs:
         platform: [arm64]
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: true
       - name: install dependencies
         run: |
-          brew install llvm
+          brew install llvm capstone
       - name: Install cross-compile tool
         uses: actions-rs/toolchain@v1
         with:
@@ -31,7 +29,10 @@ jobs:
           override: true
           components: rustfmt
       - name: cargo test
+        env:
+          CPATH: $(brew --prefix)/Cellar/capstone/4.0.2/include
+          LIBRARY_PATH: $(brew --prefix)/Cellar/capstone/4.0.2/lib
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --features=vendored --target=aarch64-apple-darwin
+          args: --target=aarch64-apple-darwin
