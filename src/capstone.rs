@@ -194,7 +194,7 @@ impl Instr {
 
             let arch = unsafe {
                 match arch {
-                    cs_arch::CS_ARCH_ARM => DetailsArch::ARM(Box::new(arch_union.arm)),
+                    cs_arch::CS_ARCH_ARM => DetailsArch::ARM(arch_union.arm),
                     cs_arch::CS_ARCH_ARM64 => DetailsArch::ARM64(arch_union.arm64),
                     cs_arch::CS_ARCH_MIPS => DetailsArch::MIPS(arch_union.mips),
                     cs_arch::CS_ARCH_X86 => DetailsArch::X86(arch_union.x86),
@@ -327,7 +327,7 @@ pub struct Details {
 pub enum DetailsArch {
     X86(cs_x86),
     ARM64(cs_arm64),
-    ARM(Box<cs_arm>),
+    ARM(cs_arm),
     MIPS(cs_mips),
     PPC(cs_ppc),
     SPARC(cs_sparc),
