@@ -1,6 +1,6 @@
 [package]
 name = "falcon_capstone"
-version = "0.5.1"
+version = "0.5.2"
 authors = ["Marco Milanese <marcomilanese7@gmail.com>", "Alex Eubanks <endeavor@rainbowsandpwnies.com>"]
 homepage = "https://github.com/falconre/falcon_capstone"
 repository = "https://github.com/falconre/falcon_capstone"
@@ -8,6 +8,7 @@ description = "Capstone bindings in rust"
 readme = "README.md"
 license = "LGPL-3.0"
 build = "build.rs"
+edition = "2021"
 
 [lib]
 name = "falcon_capstone"
@@ -18,8 +19,10 @@ libc = "0.2"
 [features]
 default = ["capstone4"]
 static = []
+vendored = []
 capstone4 = []
 
 [build-dependencies]
-bindgen = "0.59"
-pkg-config = "0.3"
+bindgen = { version = "0.63", features = [ "logging", "runtime", "which-rustfmt" ] }
+cmake = "0.1"
+fs_extra = "1.2"

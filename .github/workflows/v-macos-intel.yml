@@ -1,0 +1,27 @@
+name: Vendored macOS x86_64
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - '**/README.md'
+      - '**/.gitignore'
+      - '**/*.sh'
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: install dependencies
+        run: |
+          brew install llvm
+      - run: rustup component add rustfmt
+      - name: cargo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --features=vendored

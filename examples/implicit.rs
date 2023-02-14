@@ -11,13 +11,17 @@ fn main() {
     let dec = cs::Capstone::new(cs::cs_arch::CS_ARCH_X86, cs::CS_MODE_32).unwrap();
 
     // Enable detail mode. This is needed if you want to get instruction details.
-    dec.option(cs::cs_opt_type::CS_OPT_DETAIL, cs::cs_opt_value::CS_OPT_ON).unwrap();
+    dec.option(cs::cs_opt_type::CS_OPT_DETAIL, cs::cs_opt_value::CS_OPT_ON)
+        .unwrap();
 
     let buf = dec.disasm(code.as_slice(), 0x100, 0).unwrap();
 
     for instr in buf.iter() {
-        println!("0x{:x}:\t{}\t{}", instr.address, instr.mnemonic, instr.op_str);
-        
+        println!(
+            "0x{:x}:\t{}\t{}",
+            instr.address, instr.mnemonic, instr.op_str
+        );
+
         let details = instr.detail.unwrap();
 
         if details.regs_read.len() != 0 {
@@ -37,6 +41,5 @@ fn main() {
             }
             print!("\n");
         }
-
     }
 }

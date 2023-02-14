@@ -1,0 +1,39 @@
+name: Vendored Linux Arm7
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+    paths-ignore:
+      - '**/README.md'
+      - '**/.gitignore'
+env:
+  RUSTFLAGS: -C linker=arm-linux-gnueabihf-gcc
+jobs:
+  test:
+    name: Test on Linux Arm7
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget build-essential llvm clang libclang-dev gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf
+
+      - name: Install cross-compile tool
+#        uses: actions-rs/toolchain@v1
+        uses: taiki-e/setup-cross-toolchain-action@v1
+        with:
+          toolchain: stable
+          target: armv7-unknown-linux-gnueabihf
+          override: true
+          components: rustfmt
+      - name: cargo test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --lib --target armv7-unknown-linux-gnueabihf --features=vendored
