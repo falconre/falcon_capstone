@@ -1,14 +1,14 @@
-[![Non-Vendored Linux x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-intel.yml/badge.svg)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-intel.yml)
-[![Vendored Linux x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-intel.yml/badge.svg)](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-intel.yml)
+[![Non-Vendored Linux x86_64](https://github.com/falconre/falcon_capstone/actions/workflows/nv-linux-intel.yml/badge.svg)](https://github.com/falconre/falcon_capstone/actions/workflows/nv-linux-intel.yml)
+[![Vendored Linux x86_64](https://github.com/falconre/falcon_capstone/actions/workflows/v-linux-intel.yml/badge.svg)](https://github.com/falconre/falcon_capstone/actions/workflows/v-linux-intel.yml)
 
-[![Non-Vendored Linux aarch64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-aarch64.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-aarch64.yml)
-[![Vendored Linux aarch64](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-aarch64.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-aarch64.yml)
+[![Non-Vendored Linux aarch64](https://github.com/falconre/falcon_capstone/actions/workflows/nv-linux-aarch64.yml/badge.svg?branch=master)](https://github.com/falconre/falcon_capstone/actions/workflows/nv-linux-aarch64.yml)
+[![Vendored Linux aarch64](https://github.com/falconre/falcon_capstone/actions/workflows/v-linux-aarch64.yml/badge.svg?branch=master)](https://github.com/falconre/falcon_capstone/actions/workflows/v-linux-aarch64.yml)
 
-[![Non-Vendored Linux Arm7](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-arm7.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-linux-arm7.yml)
-[![Vendored Linux Arm7](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-arm7.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/v-linux-arm7.yml)
+[![Non-Vendored Linux Arm7](https://github.com/falconre/falcon_capstone/actions/workflows/nv-linux-arm7.yml/badge.svg?branch=master)](https://github.com/falconre/falcon_capstone/actions/workflows/nv-linux-arm7.yml)
+[![Vendored Linux Arm7](https://github.com/falconre/falcon_capstone/actions/workflows/v-linux-arm7.yml/badge.svg?branch=master)](https://github.com/falconre/falcon_capstone/actions/workflows/v-linux-arm7.yml)
 
-[![Non-Vendored macOS x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/nv-macos-intel.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/nv-macos-intel.yml)
-[![Vendored macOS x86_64](https://github.com/marirs/falcon_capstone/actions/workflows/v-macos-intel.yml/badge.svg?branch=master)](https://github.com/marirs/falcon_capstone/actions/workflows/v-macos-intel.yml)
+[![Non-Vendored macOS x86_64](https://github.com/falconre/falcon_capstone/actions/workflows/nv-macos-intel.yml/badge.svg?branch=master)](https://github.com/falconre/falcon_capstone/actions/workflows/nv-macos-intel.yml)
+[![Vendored macOS x86_64](https://github.com/falconre/falcon_capstone/actions/workflows/v-macos-intel.yml/badge.svg?branch=master)](https://github.com/falconre/falcon_capstone/actions/workflows/v-macos-intel.yml)
 
 # falcon_capstone
 
@@ -20,10 +20,12 @@ This is a fork of Mm7's capstone bindings for Rust, which can be found [here](ht
 ### Usage
 #### Vendored
 
+Vendored work thanks to @marirs and @mnaza.
+
 In Cargo.toml include
 ```toml
 [dependencies]
-falcon_capstone = { git = "https://github.com/marirs/falcon_capstone", branch = "master", features = ["vendored"] }
+falcon_capstone = { git = "https://github.com/falconre/falcon_capstone", branch = "master", features = ["vendored"] }
 ```
 
 #### Non Vendored
@@ -37,7 +39,7 @@ falcon_capstone = { git = "https://github.com/marirs/falcon_capstone", branch = 
 In Cargo.toml include
 ```toml
 [dependencies]
-falcon_capstone = { git = "https://github.com/marirs/falcon_capstone", branch = "master" }
+falcon_capstone = { git = "https://github.com/falconre/falcon_capstone", branch = "master" }
 ```
 
 #### Troubleshooting
