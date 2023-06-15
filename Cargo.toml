@@ -23,6 +23,6 @@ vendored = []
 capstone4 = []
 
 [build-dependencies]
-bindgen = { version = "0.64", features = [ "logging", "runtime", "which-rustfmt" ] }
+bindgen = { version = "0.66", features = [ "logging", "runtime", "which-rustfmt" ] }
 cmake = "0.1"
 fs_extra = "1.2"
