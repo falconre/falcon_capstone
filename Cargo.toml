@@ -16,13 +16,7 @@ name = "falcon_capstone"
 [dependencies]
 libc = "0.2"
 
-[features]
-default = ["capstone4"]
-static = []
-vendored = []
-capstone4 = []
-
 [build-dependencies]
-bindgen = { version = "0.64", features = [ "logging", "runtime", "which-rustfmt" ] }
+bindgen = "0.72"
 cmake = "0.1"
-fs_extra = "1.2"
+fs_extra = "1.3"

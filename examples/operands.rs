@@ -45,11 +45,6 @@ fn main() {
                         let imm: i64 = op.imm();
                         println!("  Immediate operand: 0x{:x}", imm);
                     }
-                    #[cfg(not(feature = "capstone4"))]
-                    cs::x86_op_type::X86_OP_FP => {
-                        let fp: f64 = op.fp();
-                        println!("  Floating-point operand: {}", fp);
-                    }
                     cs::x86_op_type::X86_OP_MEM => {
                         let mem: &cs::x86_op_mem = op.mem();
                         println!("  Memory operand:");

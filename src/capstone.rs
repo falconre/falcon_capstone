@@ -151,17 +151,13 @@ impl Instr {
                     InstrIdArch::XCORE(transmute::<u32, xcore_insn>(instr.id))
                 }
 
-                #[cfg(feature = "capstone4")]
                 cs_arch::CS_ARCH_M68K => InstrIdArch::M68K(transmute::<u32, m68k_insn>(instr.id)),
-                #[cfg(feature = "capstone4")]
                 cs_arch::CS_ARCH_TMS320C64X => {
                     InstrIdArch::TMS320C64X(transmute::<u32, tms320c64x_insn>(instr.id))
                 }
-                #[cfg(feature = "capstone4")]
                 cs_arch::CS_ARCH_M680X => {
                     InstrIdArch::M680X(transmute::<u32, m680x_insn>(instr.id))
                 }
-                #[cfg(feature = "capstone4")]
                 cs_arch::CS_ARCH_EVM => InstrIdArch::EVM(transmute::<u32, evm_insn>(instr.id)),
                 _ => panic!("Unexpected arch: {:?}", arch),
             }
@@ -203,13 +199,9 @@ impl Instr {
                     cs_arch::CS_ARCH_SYSZ => DetailsArch::SYSZ(arch_union.sysz),
                     cs_arch::CS_ARCH_XCORE => DetailsArch::XCORE(arch_union.xcore),
 
-                    #[cfg(feature = "capstone4")]
                     cs_arch::CS_ARCH_M68K => DetailsArch::M68K(arch_union.m68k),
-                    #[cfg(feature = "capstone4")]
                     cs_arch::CS_ARCH_TMS320C64X => DetailsArch::TMS320C64X(arch_union.tms320c64x),
-                    #[cfg(feature = "capstone4")]
                     cs_arch::CS_ARCH_M680X => DetailsArch::M680X(arch_union.m680x),
-                    #[cfg(feature = "capstone4")]
                     cs_arch::CS_ARCH_EVM => DetailsArch::EVM(arch_union.evm),
                     _ => panic!("Unexpected arch: {:?}", arch),
                 }
@@ -279,13 +271,9 @@ pub enum InstrIdArch {
     SYSZ(sysz_insn),
     XCORE(xcore_insn),
 
-    #[cfg(feature = "capstone4")]
     M68K(m68k_insn),
-    #[cfg(feature = "capstone4")]
     TMS320C64X(tms320c64x_insn),
-    #[cfg(feature = "capstone4")]
     M680X(m680x_insn),
-    #[cfg(feature = "capstone4")]
     EVM(evm_insn),
 }
 
@@ -334,13 +322,9 @@ pub enum DetailsArch {
     SYSZ(cs_sysz),
     XCORE(cs_xcore),
 
-    #[cfg(feature = "capstone4")]
     M68K(cs_m68k),
-    #[cfg(feature = "capstone4")]
     TMS320C64X(cs_tms320c64x),
-    #[cfg(feature = "capstone4")]
     M680X(cs_m680x),
-    #[cfg(feature = "capstone4")]
     EVM(cs_evm),
 }
 
@@ -396,7 +380,7 @@ impl InstrBuf {
     }
 
     /// Create an iterator from the beginning of this buffer.
-    pub fn iter(&self) -> InstrIter {
+    pub fn iter(&self) -> InstrIter<'_> {
         InstrIter::new(self)
     }
 }
@@ -423,7 +407,7 @@ impl<'a> Iterator for InstrIter<'a> {
 
 impl<'a> InstrIter<'a> {
     /// Create an `InstrIter` from the beginning of `buf`.
-    pub fn new(buf: &InstrBuf) -> InstrIter {
+    pub fn new(buf: &InstrBuf) -> InstrIter<'_> {
         InstrIter { buf, current: 0 }
     }
 }
