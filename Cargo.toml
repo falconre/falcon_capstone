@@ -1,6 +1,6 @@
 [package]
 name = "falcon_capstone"
-version = "0.5.2"
+version = "0.5.3"
 authors = ["Marco Milanese <marcomilanese7@gmail.com>", "Alex Eubanks <endeavor@rainbowsandpwnies.com>"]
 homepage = "https://github.com/falconre/falcon_capstone"
 repository = "https://github.com/falconre/falcon_capstone"
@@ -16,13 +16,7 @@ name = "falcon_capstone"
 [dependencies]
 libc = "0.2"
 
-[features]
-default = ["capstone4"]
-static = []
-vendored = []
-capstone4 = []
-
 [build-dependencies]
-bindgen = { version = "0.64", features = [ "logging", "runtime", "which-rustfmt" ] }
+bindgen = "0.72"
 cmake = "0.1"
-fs_extra = "1.2"
+fs_extra = "1.3"

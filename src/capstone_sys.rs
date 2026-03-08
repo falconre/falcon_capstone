@@ -23,43 +23,23 @@ pub const CS_MODE_BIG_ENDIAN: cs_mode = cs_mode_CS_MODE_BIG_ENDIAN;
 pub const CS_MODE_MIPS32: cs_mode = cs_mode_CS_MODE_MIPS32;
 pub const CS_MODE_MIPS64: cs_mode = cs_mode_CS_MODE_MIPS64;
 
-#[cfg(not(feature = "capstone4"))]
-pub const CS_MODE_MIPSGP64: cs_mode = cs_mode_CS_MODE_MIPSGP64;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_MPIS2: cs_mode = cs_mode_CS_MODE_MIPS2;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_QPX: cs_mode = cs_mode_CS_MODE_QPX;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M68K_000: cs_mode = cs_mode_CS_MODE_M68K_000;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M68K_010: cs_mode = cs_mode_CS_MODE_M68K_010;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M68K_020: cs_mode = cs_mode_CS_MODE_M68K_020;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M68K_030: cs_mode = cs_mode_CS_MODE_M68K_030;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M68K_040: cs_mode = cs_mode_CS_MODE_M68K_040;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M68K_060: cs_mode = cs_mode_CS_MODE_M68K_060;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6301: cs_mode = cs_mode_CS_MODE_M680X_6301;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6309: cs_mode = cs_mode_CS_MODE_M680X_6309;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6800: cs_mode = cs_mode_CS_MODE_M680X_6800;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6801: cs_mode = cs_mode_CS_MODE_M680X_6801;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6805: cs_mode = cs_mode_CS_MODE_M680X_6805;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6808: cs_mode = cs_mode_CS_MODE_M680X_6808;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6809: cs_mode = cs_mode_CS_MODE_M680X_6809;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_6811: cs_mode = cs_mode_CS_MODE_M680X_6811;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_CPU12: cs_mode = cs_mode_CS_MODE_M680X_CPU12;
-#[cfg(feature = "capstone4")]
 pub const CS_MODE_M680X_HCS08: cs_mode = cs_mode_CS_MODE_M680X_HCS08;
 
 // Union field getters.
@@ -70,16 +50,11 @@ impl cs_x86_op {
     pub fn imm(&self) -> i64 {
         unsafe { self.__bindgen_anon_1.imm }
     }
-    #[cfg(not(feature = "capstone4"))]
-    pub fn fp(&self) -> f64 {
-        unsafe { self.__bindgen_anon_1.fp }
-    }
     pub fn mem(&self) -> &x86_op_mem {
         unsafe { &self.__bindgen_anon_1.mem }
     }
 }
 
-#[cfg(feature = "capstone4")]
 impl cs_x86 {
     pub fn eflags(&self) -> u64 {
         unsafe { self.__bindgen_anon_1.eflags }
@@ -105,7 +80,7 @@ impl cs_arm64_op {
     pub fn pstate(&self) -> &arm64_pstate {
         unsafe { &self.__bindgen_anon_1.pstate }
     }
-    pub fn sys(&self) -> u32 {
+    pub fn sys(&self) -> arm64_sys_op {
         unsafe { self.__bindgen_anon_1.sys }
     }
     pub fn prefetch(&self) -> &arm64_prefetch_op {
@@ -118,17 +93,9 @@ impl cs_arm64_op {
 
 impl cs_arm_op {
     pub fn reg(&self) -> arm_reg {
-        #[cfg(not(feature = "capstone4"))]
-        unsafe {
-            self.__bindgen_anon_1.reg
-        }
-
         // capstone/arm.h uses a plain int for the reg field rather than an arm_reg for some
         // reason, so we have to do some weird `as` business to get this to typecheck
-        #[cfg(feature = "capstone4")]
-        unsafe {
-            (self.__bindgen_anon_1.reg as u32).into()
-        }
+        unsafe { (self.__bindgen_anon_1.reg as u32).into() }
     }
     pub fn imm(&self) -> i32 {
         unsafe { self.__bindgen_anon_1.imm }
@@ -160,11 +127,6 @@ impl cs_ppc_op {
     pub fn reg(&self) -> ppc_reg {
         unsafe { self.__bindgen_anon_1.reg }
     }
-    #[cfg(not(feature = "capstone4"))]
-    pub fn imm(&self) -> i32 {
-        unsafe { self.__bindgen_anon_1.imm }
-    }
-    #[cfg(feature = "capstone4")]
     pub fn imm(&self) -> i64 {
         unsafe { self.__bindgen_anon_1.imm }
     }
@@ -180,11 +142,6 @@ impl cs_sparc_op {
     pub fn reg(&self) -> sparc_reg {
         unsafe { self.__bindgen_anon_1.reg }
     }
-    #[cfg(not(feature = "capstone4"))]
-    pub fn imm(&self) -> i32 {
-        unsafe { self.__bindgen_anon_1.imm }
-    }
-    #[cfg(feature = "capstone4")]
     pub fn imm(&self) -> i64 {
         unsafe { self.__bindgen_anon_1.imm }
     }
@@ -217,7 +174,6 @@ impl cs_xcore_op {
     }
 }
 
-#[cfg(feature = "capstone4")]
 impl cs_tms320c64x_op {
     pub fn reg(&self) -> tms320c64x_reg {
         unsafe { self.__bindgen_anon_1.reg.into() }
@@ -230,7 +186,6 @@ impl cs_tms320c64x_op {
     }
 }
 
-#[cfg(feature = "capstone4")]
 impl cs_m680x_op {
     pub fn imm(&self) -> i32 {
         unsafe { self.__bindgen_anon_1.imm }
@@ -255,7 +210,6 @@ impl cs_m680x_op {
     }
 }
 
-#[cfg(feature = "capstone4")]
 impl cs_m68k_op {
     pub fn imm(&self) -> u64 {
         unsafe { self.__bindgen_anon_1.imm }
@@ -278,7 +232,7 @@ impl cs_m68k_op {
         }
     }
 }
-#[cfg(feature = "capstone4")]
+
 impl m68k_op_size {
     pub fn cpu_size(&self) -> m68k_cpu_size {
         unsafe { self.__bindgen_anon_1.cpu_size }
@@ -317,12 +271,8 @@ impl_from_into_int!(ppc_reg);
 impl_from_into_int!(sparc_reg);
 impl_from_into_int!(sysz_reg);
 impl_from_into_int!(xcore_reg);
-
-#[cfg(feature = "capstone4")]
 impl_from_into_int!(m68k_reg);
-#[cfg(feature = "capstone4")]
 impl_from_into_int!(tms320c64x_reg);
-#[cfg(feature = "capstone4")]
 impl_from_into_int!(m680x_reg);
 
 // Groups: enum <-> integer.
@@ -334,8 +284,5 @@ impl_from_into_int!(ppc_insn_group);
 impl_from_into_int!(sparc_insn_group);
 impl_from_into_int!(sysz_insn_group);
 impl_from_into_int!(xcore_insn_group);
-
-#[cfg(feature = "capstone4")]
 impl_from_into_int!(tms320c64x_insn_group);
-#[cfg(feature = "capstone4")]
 impl_from_into_int!(evm_insn_group);

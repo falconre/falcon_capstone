@@ -54,12 +54,7 @@ fn multiple_instr() {
     assert_eq!(instr4.mnemonic, "lea");
     assert_eq!(
         instr4.op_str,
-        if cfg!(feature = "capstone4") {
-            // Capstone 4 changed the pretty printing format slightly
-            "esi, [ebx + 0x10]"
-        } else {
-            "esi, dword ptr [ebx + 0x10]"
-        }
+        "esi, [ebx + 0x10]"
     );
     assert_eq!(instr4.address, 8);
     assert_eq!(instr4.id, cs::InstrIdArch::X86(cs::x86_insn::X86_INS_LEA));
